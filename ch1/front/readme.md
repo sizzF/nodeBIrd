@@ -1,3 +1,6 @@
+cd .\ch1\front\
+
+
 npm i
 
 
