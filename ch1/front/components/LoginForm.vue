@@ -36,7 +36,7 @@ export default {
             password: '',
             emailRules: [
                 v => !!v || '이메일은 필수입니다.',
-                v => /.+@+/.test(v) || '유효하지 않은 이메일입니다.'
+                v => /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i.test(v) || '유효하지 않은 이메일입니다.'
             ],
             passwordRules: [
                 v => !!v || '비밀번호는 필수입니다.',
