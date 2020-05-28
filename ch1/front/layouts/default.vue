@@ -11,7 +11,7 @@
                     <v-btn text nuxt to="/profile">
                         프로필
                     </v-btn>
-                    <v-btn text nuxt to="/signup">
+                    <v-btn v-if="!me" text nuxt to="/signup">
                         회원가입
                     </v-btn>
                 </v-toolbar-items>
@@ -22,13 +22,10 @@
                 <login-form />
             </v-col>
             <v-col cols="12" xs="12" md="8">
-                
                 <nuxt />    
             </v-col>
-        
         </v-row>
     </v-app>
-    
 </template>
 
 <script>
@@ -37,7 +34,20 @@ import LoginForm from '../components/LoginForm';
 export default {
     components: {
         LoginForm
-    }
+    },
+    computed: {
+        name() {
+            return this.$store.state.posts.name;
+        },
+        me() {
+            return this.$store.state.users.me;
+        }
+    },
+    methods: {
+        onChangeName() {
+            this.$store.commit('posts/BYE');
+        }
+    },
 }
 </script>
 

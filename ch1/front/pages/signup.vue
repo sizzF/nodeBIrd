@@ -76,9 +76,20 @@ export default {
         };
     },
     methods: {
-        onSubmitForm(){
+        async onSubmitForm(){
             if(this.$refs.form.validate()){
-                alert('회원가입시도');
+                try{
+                    await this.$store.dispatch('users/signUp', {
+                        email: this.email,
+                        password: this.password,
+                        nickname: this.nickname
+                    })    
+                }catch{
+                            alert('로그인 실패');
+                }
+                this.$router.push({
+                        path: '/'
+                    });
             }else{
                 alert('폼이 유효하지 않습니다.');
             }
