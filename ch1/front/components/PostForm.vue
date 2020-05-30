@@ -16,7 +16,7 @@
                     />
                 <v-container>
                     <v-btn type="submit" color="green" style="color:white" absolute right>게시</v-btn>
-                    <v-btn>이미지 업로드</v-btn>                
+                    <v-btn @click="onImageUpload">이미지 업로드</v-btn>                
                 </v-container>
             </v-form>   
             </v-container>
@@ -40,10 +40,14 @@ export default {
         ...mapState('users', ['me'])
     },
     methods: {
-        onChangeTextarea() {
-            this.hideDetails = true;
-            this.success = false;
-            this.successMessages = '';
+        onChangeTextarea(value) {
+            if(value) {
+                this.hideDetails = true;
+                this.success = false;
+                this.successMessages = '';
+            }else{
+                this.hideDetails = false;
+            }
         },
         async onSubmitForm() {
             if(this.$refs.form.validate()) {
@@ -62,7 +66,7 @@ export default {
                 }catch{
                         alert('게시글 등록 실패');
                 }
-            
+                this.content = '';
                 this.hideDetails = false;
                 this.success = true;
                 this.successMessages = '게시글 등록 성공';
@@ -72,6 +76,10 @@ export default {
             
                     
         },
+
+        onImageUpload() {
+            alert('이미지 업로드 버튼 클릭');
+        }
     },
 }
 </script>

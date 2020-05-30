@@ -2,8 +2,8 @@
     <div>
         <v-container>
             <post-form v-if="me" />
-            <div >
-                <post-card v-for="post in mainPosts" :key="post.id" :post="post"/>
+            <div>
+                <post-card v-for="post in mainPosts" :key="post.id" :post="post" />
             </div>
         </v-container>
     </div>
