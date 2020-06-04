@@ -13,7 +13,8 @@ export const mutations = {
     addComment(state, payload) {
         const index = state.mainPosts.findIndex( v => v.id === payload.postId);
         state.mainPosts[index].comments.unshift(payload);
-    }
+    },
+
 };
 
 export const actions = {
@@ -26,5 +27,6 @@ export const actions = {
     },
     addComment({ commit }, payload){
         commit('addComment', payload);
-    }
+    },
+
 }

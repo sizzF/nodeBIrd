@@ -1,29 +1,27 @@
 <template>
-    <v-list-tile>
-        <ul>
-            <li>
-                <span>ssasun</span>
-                <v-icon>mdi-minus-circle-outline</v-icon>
-            </li>
-            <li>
-                <span>ssasun2</span>
-                <v-icon>mdi-minus-circle-outline</v-icon>
-            </li>
-            <li>
-                <span>ssasun3</span>
-                <v-icon>mdi-minus-circle-outline</v-icon>
-            </li>
-            <li>
-                <span>ssasun4</span>
-                <v-icon>mdi-minus-circle-outline</v-icon>
-            </li>            
-        </ul>
-    </v-list-tile>
+    <v-container>
+        <v-flex flex-direction: row>
+            <follow-card v-for="follow in followList" :key="follow.id" :follow="follow" :option="option" style="margin-right:10px" />
+        </v-flex>
+    </v-container>
 </template>
 
 <script>
+import FollowCard from './FollowCard'
 export default {
-    
+    components: {
+        FollowCard,
+    },
+    props: {
+        followList: { 
+            type: Array,
+            required: true,
+        },
+        option: {
+            type: String,
+            required: true,
+        }
+    },
 }
 </script>
 

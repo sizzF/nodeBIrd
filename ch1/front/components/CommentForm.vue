@@ -48,7 +48,7 @@ export default {
             async onSubmitForm() {
                 if(this.$refs.form.validate()){
                     try{
-                        this.$store.dispatch("posts/addComment", {
+                        await this.$store.dispatch("posts/addComment", {
                             id: Date.now(),
                             postId: this.postId,
                             content: this.content,
