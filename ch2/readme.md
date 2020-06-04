@@ -1,4 +1,4 @@
-cd .\ch1\front\
+cd .\ch2
 
 
 npm i
