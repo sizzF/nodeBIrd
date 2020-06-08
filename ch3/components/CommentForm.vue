@@ -57,7 +57,7 @@ export default {
                             }
                         });
                     }catch{
-                        
+                        alert('댓글작성 에러');
                     }
 
                     this.content = '';

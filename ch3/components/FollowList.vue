@@ -1,24 +1,30 @@
 <template>
-    <v-container>
-        <v-flex flex-direction: row>
-            <follow-card v-for="follow in followList" :key="follow.id" :follow="follow" :option="option" style="margin-right:10px" />
-        </v-flex>
-    </v-container>
+    <v-list>
+        <v-col v-for="user in followList" :key="user.id" cols="12" md="4" style="display: inline-block;">
+            <v-list-item>
+                <v-list-item-avatar color="indigo">
+                    <span>{{ user.nickname[0] }}</span>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                    <v-list-item-title>{{ user.nickname }}</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action>
+                    <v-icon @click="remove(user.id)">mdi-minus-circle-outline</v-icon>
+                </v-list-item-action>
+            </v-list-item>
+        </v-col>
+    </v-list>
 </template>
 
 <script>
-import FollowCard from './FollowCard'
 export default {
-    components: {
-        FollowCard,
-    },
     props: {
         followList: { 
             type: Array,
             required: true,
         },
-        option: {
-            type: String,
+        remove: {
+            type: Function,
             required: true,
         }
     },

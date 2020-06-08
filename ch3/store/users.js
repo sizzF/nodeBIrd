@@ -1,19 +1,14 @@
 export const state = () => ({
     me: null,//로그인 상태확인
-    followerList: [
-        {nickname: 'follower01', id: 1},
-        {nickname: 'follower02', id: 2},
-        {nickname: 'follower03', id: 3},
-        {nickname: 'follower04', id: 4},
-        
-    ],
-    followingList: [
-        {nickname: 'following01', id: 1},
-        {nickname: 'following02', id: 2},
-        {nickname: 'following03', id: 3},
-        {nickname: 'following04', id: 4},
-    ],
+    followerList: [],
+    followingList: [],
+    hasMoreFollower: true,
+    hasMoreFollowing: true,
 });
+
+const totalFollower = 8;
+const totalFollowing = 7;
+const limit = 3;
 
 export const mutations = { //동기적 작업
     SETME(state, payload) {
@@ -30,6 +25,23 @@ export const mutations = { //동기적 작업
         const index = state.followingList.findIndex( v => v.id === payload.id);
         state.followingList.splice(index, 1);    
     },
+    loadFollowers(state){
+        const diff = totalFollower - state.followerList.length;
+        const fakeUsers = Array(diff > limit ? limit : diff).fill().map( v => ({
+            id: Math.random().toString(),
+            nickname: Math.floor(Math.random()*1000)
+        }));
+        state.followerList = state.followerList.concat(fakeUsers);
+        state.hasMoreFollower = fakeUsers.length === limit;
+    },
+    loadFollowings(state){
+        const diff = totalFollowing - state.followingList.length;
+        const fakeUsers = Array(diff > limit ? limit : diff).fill().map( v => ({
+            id: Math.random().toString(),
+            nickname: Math.floor(Math.random()*1000)
+        }));
+        state.followingList = state.followingList.concat(fakeUsers);
+        state.hasMoreFollowing = fakeUsers.length === limit;    }
 };
 
 export const actions = { //비동기적 작업 동기도됨
@@ -44,7 +56,6 @@ export const actions = { //비동기적 작업 동기도됨
 
     logOut(context, payload) {
         context.commit('SETME', null);
-
     },
     changeNickname({ commit }, payload){
         commit('changeNickname', payload);
@@ -54,5 +65,14 @@ export const actions = { //비동기적 작업 동기도됨
     },
     deleteFollowing({ commit }, payload){
         commit('deleteFollowing', payload);
-    }
+    },
+    loadFollowers({ commit, state }){
+        if(state.hasMoreFollower){
+            commit('loadFollowers');
+        }
+    },
+    loadFollowings({ commit, state }){
+        if(state.hasMoreFollower){
+            commit('loadFollowings');
+        }    }
 };

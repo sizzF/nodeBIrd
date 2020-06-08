@@ -17,6 +17,9 @@ export default {
         PostCard,
         PostForm
     },
+    fetch({ store }) {
+        store.dispatch('posts/loadPosts');
+    },
     data() {
         return {
             name: 'nuxt.js'
@@ -28,8 +31,36 @@ export default {
         },
         mainPosts() {
             return this.$store.state.posts.mainPosts;
+        },
+        hasMorePost() {
+            return this.$store.state.posts.hasMorePost;
         }
     },
+
+    mounted() {
+        window.addEventListener('scroll',this.onScroll);
+    },
+    beforeDestroy() {
+        window.removeEventListener('scroll', this.onScroll);
+    },
+
+    methods: {
+        async onScroll() {
+            if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 250){
+                if(this.hasMorePost){
+                    try{
+                        this.$store.dispatch('posts/loadPosts');
+
+                    }catch{
+                        alert('온스크롤 메소드 에러');
+                    }
+                }
+               
+            }
+        }
+    },
+
+    
 
 }
 </script>

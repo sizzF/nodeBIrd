@@ -54,11 +54,11 @@ export default {
                 try{
                     await this.$store.dispatch('posts/add', {
                     content: this.content,
-                    user: {
+                    User: {
                         nickname: this.me.nickname,
                     },
-                    comments: [],
-                    images: [],
+                    Comments: [],
+                    Images: [],
                     id: Date.now(),
                     createdAt: Date.now(),
                 })

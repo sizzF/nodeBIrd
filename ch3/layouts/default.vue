@@ -11,17 +11,17 @@
                     <v-btn text nuxt to="/profile">
                         프로필
                     </v-btn>
-                    <v-btn v-if="!me" text nuxt to="/signup">
+                    <v-btn text nuxt to="/signup">
                         회원가입
                     </v-btn>
                 </v-toolbar-items>
             </v-toolbar>
         </nav>
         <v-row no-gutters>
-            <v-col cols="12" xs="12" md="4">
+            <v-col cols="12" md="4">
                 <login-form />
             </v-col>
-            <v-col cols="12" xs="12" md="8">
+            <v-col cols="12" md="8">
                 <nuxt />    
             </v-col>
         </v-row>
