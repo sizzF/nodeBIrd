@@ -17,6 +17,7 @@
                             />
                         </div>
                     </v-form>
+                    
                     <v-btn v-if="me" text nuxt to="/profile">
                         프로필
                     </v-btn>
