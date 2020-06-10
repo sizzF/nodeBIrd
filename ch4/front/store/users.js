@@ -45,17 +45,50 @@ export const mutations = { //동기적 작업
 };
 
 export const actions = { //비동기적 작업 동기도됨
-    signUp(context, payload) { //context안에는 {commit, dispatch, state, rootState ,getters, rootGetters }
+    async signUp(context, payload) { //context안에는 {commit, dispatch, state, rootState ,getters, rootGetters }
         //서버에 회원가입 요청
-        context.dispatch('logIn', payload);
+        try{
+            const res = await this.$axios.post('http://localhost:3085/user',{
+                email: payload.email,
+                password: payload.password,
+                nickname: payload.nickname
+            },{
+                withCredentials: true,
+            });//user사용자를 post생성하다
+            console.log(res);
+            context.dispatch('logIn', res.data);
+        }catch(err){
+            console.error(err);
+        }
+        
+       
     },
 
-    logIn(context, payload) {
-        context.commit('SETME', payload);
+    async logIn(context, payload) {
+        try{
+            const res = await this.$axios.post('http://localhost:3085/user/login',{
+                email: payload.email,
+                password: payload.password
+            }, {
+                withCredentials: true,
+            });
+            console.log(res);
+            context.commit('SETME', res.data);
+        }catch(err){
+            console.error(err);
+        }
+       
     },
 
-    logOut(context, payload) {
-        context.commit('SETME', null);
+    async logOut(context, payload) {
+        try{
+            const data = await this.$axios.post('http://localhost:3085/user/logout',{},{
+                withCredentials: true,
+            });
+            context.commit('SETME', null);
+        }catch(err){
+            console.error(err);
+        }
     },
     changeNickname({ commit }, payload){
         commit('changeNickname', payload);

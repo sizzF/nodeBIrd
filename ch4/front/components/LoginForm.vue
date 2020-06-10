@@ -61,10 +61,10 @@ export default {
             if(this.$refs.form.validate()){
                 try{
                     await this.$store.dispatch('users/logIn', {
-                        email: this.eamil,
+                        email: this.email,
                         password: this.password,
                         nickname: '조승민',
-                    })
+                    });
                 }catch{
                         alert('로그인 실패');
 

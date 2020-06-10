@@ -96,7 +96,8 @@ export default {
                     await this.$store.dispatch('users/signUp', {
                         email: this.email,
                         password: this.password,
-                        nickname: this.nickname
+                        nickname: this.nickname,
+                        password: this.password
                     })    
                 }catch{
                             alert('로그인 실패');
