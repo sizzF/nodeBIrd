@@ -4,8 +4,9 @@ const passport = require('passport');
 const db = require('../models');
 
 const router = express.Router();
+const { isNotLoggedIn, isLoggedIn } = require('./middlewares');
 
-router.post('/', async (req, res, next) => {
+router.post('/', isNotLoggedIn, async (req, res, next) => {
 
     try{
         const exUser = await db.User.findOne(({
@@ -52,7 +53,7 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-router.post('/login', async (req, res, next) => { 
+router.post('/login', isNotLoggedIn, async (req, res, next) => { 
     passport.authenticate('local', (err, user, info) => {
         if(err){
             console.error(err);
@@ -74,7 +75,7 @@ router.post('/login', async (req, res, next) => {
     })(req, res, next);
 });
 
-router.post('/logout', (req, res) => {
+router.post('/logout', isLoggedIn, (req, res) => {
     if(req.isAuthenticated){
         req.logout();
         req.session.destroy(); //이부분은 선택사항

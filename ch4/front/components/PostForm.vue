@@ -16,7 +16,16 @@
                     />
                 <v-container>
                     <v-btn type="submit" color="green" style="color:white" absolute right>게시</v-btn>
-                    <v-btn @click="onImageUpload">이미지 업로드</v-btn>                
+                    <input ref="imageInput" type="file" multiple hidden @change="onChangeImages">
+                    <v-btn @click="onClickImageUpload" type="button">이미지 업로드</v-btn>
+                    <div>
+                        <div v-for="(p, i) in imagePaths" :key="p" style="display: inline-block">
+                            <img :src="`http://localhost:3085/${p}`" :alt="p" style="width: 200px">
+                            <div>
+                                <v-btn @click="onRemoveImage(i)" type="button">제거</v-btn>
+                            </div>
+                        </div>
+                    </div>                
                 </v-container>
             </v-form>   
             </v-container>
@@ -37,7 +46,9 @@ export default {
         }
     },
     computed: {
-        ...mapState('users', ['me'])
+        ...mapState('users', ['me']),
+        ...mapState('posts', ['imagePaths'])
+
     },
     methods: {
         onChangeTextarea(value) {
@@ -54,31 +65,33 @@ export default {
                 try{
                     await this.$store.dispatch('posts/add', {
                     content: this.content,
-                    User: {
-                        nickname: this.me.nickname,
-                    },
-                    Comments: [],
-                    Images: [],
-                    id: Date.now(),
-                    createdAt: Date.now(),
-                })
-
+                    })
+                    this.content = '';
+                    this.hideDetails = false;
+                    this.success = true;
+                    this.successMessages = '게시글 등록 성공';
                 }catch{
                         alert('게시글 등록 실패');
                 }
-                this.content = '';
-                this.hideDetails = false;
-                this.success = true;
-                this.successMessages = '게시글 등록 성공';
+                
             }else{
                 this.hideDetails = false;
-            }
-            
-                    
+            }       
         },
 
-        onImageUpload() {
-            alert('이미지 업로드 버튼 클릭');
+        onClickImageUpload() {
+            this.$refs.imageInput.click();
+        },
+        onChangeImages(e) {
+            console.log(e.target.files);
+            const imageFormData = new FormData();
+            [].forEach.call(e.target.files, (f) => {//유사배열의 값 가져오는 방식
+                imageFormData.append('image', f); // [image: [file1, file2]]
+            });
+            this.$store.dispatch('posts/uploadImages', imageFormData);
+        },
+        onRemoveImage(index){
+            this.$store.commit('posts/removeImagePath', index);
         }
     },
 }
