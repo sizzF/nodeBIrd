@@ -17,12 +17,12 @@
                 <v-container>
                     <v-btn type="submit" color="green" style="color:white" absolute right>게시</v-btn>
                     <input ref="imageInput" type="file" multiple hidden @change="onChangeImages">
-                    <v-btn @click="onClickImageUpload" type="button">이미지 업로드</v-btn>
+                    <v-btn type="button" @click="onClickImageUpload">이미지 업로드</v-btn>
                     <div>
-                        <div v-for="(p, i) in imagePaths" :key="p" style="display: inline-block">
+                        <div v-for="(p, i) in imagePaths" :key="p" style="display: inline-block; margin-right: 10px;">
                             <img :src="`http://localhost:3085/${p}`" :alt="p" style="width: 200px">
                             <div>
-                                <v-btn @click="onRemoveImage(i)" type="button">제거</v-btn>
+                                <v-btn type="button" @click="onRemoveImage(i)">제거</v-btn>
                             </div>
                         </div>
                     </div>                

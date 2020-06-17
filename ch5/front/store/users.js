@@ -45,6 +45,18 @@ export const mutations = { //동기적 작업
 };
 
 export const actions = { //비동기적 작업 동기도됨
+    async loadUser({ commit }) {
+        try {
+            const res = this.$axios.get('http://localhost:3085/user',{
+                withCredentials: true,
+            });
+            commit('SETME', res.data);
+        } catch (err) {
+            console.log(err);
+        }
+      
+    },
+
     async signUp(context, payload) { //context안에는 {commit, dispatch, state, rootState ,getters, rootGetters }
         //서버에 회원가입 요청
         try{
@@ -107,5 +119,7 @@ export const actions = { //비동기적 작업 동기도됨
     loadFollowings({ commit, state }){
         if(state.hasMoreFollower){
             commit('loadFollowings');
-        }    }
+        }    
+    },
+
 };

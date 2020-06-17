@@ -49,12 +49,8 @@ export default {
                 if(this.$refs.form.validate()){
                     try{
                         await this.$store.dispatch("posts/addComment", {
-                            id: Date.now(),
                             postId: this.postId,
                             content: this.content,
-                            User: {
-                                nickname: this.me.nickname,
-                            }
                         });
                     }catch{
                         alert('댓글작성 에러');

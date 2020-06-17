@@ -4,8 +4,6 @@ export const state = () => ({
     imagePaths: [],
 });
 
-
-const totalPosts = 51;
 const limit = 10;
 
 export const mutations = {
@@ -14,28 +12,22 @@ export const mutations = {
         state.imagePaths = [];
     },
     removeMainPost(state, payload) {
-        const index = state.mainPosts.findIndex( v => v.id === payload.id);
+        const index = state.mainPosts.findIndex( v => v.id === payload.postId);
         state.mainPosts.splice(index, 1);
     },
     addComment(state, payload) {
         const index = state.mainPosts.findIndex( v => v.id === payload.postId);
-        console.log(index);
         state.mainPosts[index].Comments.unshift(payload);
     },
     loadPosts(state, payload) {
-        const diff = totalPosts - state.mainPosts.length;
-        const fakePosts = Array(diff > limit ? limit : diff).fill().map(v => ({
-            id: Math.floor(Math.random() * 1000),
-            User: {
-                id: 1,
-                nickname: '승민'
-            },
-            content: `hello infinity scrolling~ ${Math.floor(Math.random()*1000)}`,
-            Comments: [],
-            Images: []
-        }));
-        state.mainPosts = state.mainPosts.concat(fakePosts);
-        state.hasMorePost = fakePosts.length === limit; //10개씩 불러올때는 뒤에 더있을수있으니 true 10개 이하면 끝난거니 false
+        
+        state.mainPosts = state.mainPosts.concat(payload);
+        state.hasMorePost = payload.length === limit; //10개씩 불러올때는 뒤에 더있을수있으니 true 10개 이하면 끝난거니 false
+    },
+    loadComments(state, payload) {
+        const index = state.mainPosts.findIndex( v => v.id === payload.postId);
+        state.mainPosts[index].Comments = payload;
+
     },
     concatImagePaths(state, payload){
         console.log(payload);
@@ -52,7 +44,7 @@ export const actions = {
         try {
             const res = await this.$axios.post('http://localhost:3085/post', {
                 content: payload.content,
-                imagePaths: state.imagePaths
+                image: state.imagePaths
             }, {
                 withCredentials: true
             });
@@ -62,15 +54,51 @@ export const actions = {
         }
         
     },
-    remove({ commit }, payload){
-        commit('removeMainPost', payload);
+    async remove({ commit }, payload){
+        try {
+            await this.$axios.delete(`http://localhost:3085/post/${payload.postId}`, {
+                withCredentials: true,
+            });
+            commit('removeMainPost', payload);
+
+        } catch (err) {
+            console.log(err);
+        }
     },
-    addComment({ commit }, payload){
-        commit('addComment', payload);
+    async addComment({ commit }, payload){
+        try {
+            const res = await this.$axios.post(`http://localhost:3085/post/${payload.postId}/comment`, {
+                content: payload.content,
+
+            },{
+                withCredentials: true,
+            });
+            commit('addComment', res.data);
+
+
+        } catch (err) {
+            console.log(err);
+        }
     },
-    loadPosts({ commit, state }, payload){
+    async loadPosts({ commit, state }, payload){
         if(state.hasMorePost) {
-            commit('loadPosts');
+            try {
+                console.log(state.mainPosts.length);
+                const res = await this.$axios.get(`http://localhost:3085/posts?offset=${state.mainPosts.length}&limit=10`)
+                commit('loadPosts', res.data);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    },
+    async loadComments({ commit, router }, payload){
+        if(state.hasMorePost) {
+            try {
+                const res = await this.$axios.get(`http://localhost:3085/post/${payload.postId}/comments`);
+                commit('loadComments', res.data);
+            } catch (err) {
+                console.log(err);
+            }
         }
     },
     async uploadImages({ commit }, payload){

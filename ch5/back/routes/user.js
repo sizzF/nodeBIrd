@@ -6,8 +6,17 @@ const db = require('../models');
 const router = express.Router();
 const { isNotLoggedIn, isLoggedIn } = require('./middlewares');
 
-router.post('/', isNotLoggedIn, async (req, res, next) => {
 
+router.get('/', isLoggedIn, async (req, res, next) => {
+    try {
+        const user = req.user;
+        res.json(user);
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+})
+router.post('/', isNotLoggedIn, async (req, res, next) => {
     try{
         const exUser = await db.User.findOne(({
             where:{
