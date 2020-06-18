@@ -10,6 +10,11 @@
   },
   "author": "",
   "license": "ISC",
+  "config": {
+    "nuxt": {
+      "port": "3088"
+    }
+  },
   "dependencies": {
     "@nuxtjs/axios": "^5.11.0",
     "@nuxtjs/vuetify": "^1.11.2",

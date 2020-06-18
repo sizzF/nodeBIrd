@@ -66,28 +66,6 @@ router.post('/', isLoggedIn, async (req, res) => {
        next(err)
    }
 });
-router.get('/:id/comments', async (req, res, next) => {
-    try {
-        const post = await db.Post.findOne({ where: { id: req.params.id } });
-        if(!post){
-            return res.status(404).send('포스트가 존재하지 않습니다.');
-        }
-        const comments = await db.Comment.findAll({
-            where: {
-                PostId: req.params.id,
-            },
-            include:[{
-                model: User.id,
-                attributes: ['id', 'nickname'],
-            }],
-            order: [['createdAt', 'ASC']], //정렬 생성시간으로 ASC오름차순 DESC내림차순, 이차원 배열인 이유는 2번째 3번째 정렬옵션이 들어갈수 있어서
-        });
-        return res.json(comments);
-    } catch (err) {
-        console.log(err);
-        next(err);
-    }
-});
 
 router.patch( '/:id', isLoggedIn, async (req, res ,next) => { //게시글 수정부분 구현, 부분수정 patch 전체수정 put
     try {
@@ -109,7 +87,29 @@ router.delete('/:id', isLoggedIn, async (req, res, next) => {
         console.log(err);
         next(err);
     }
-})
+});
+router.get('/:id/comments', async (req, res, next) => {
+    try {
+        const post = await db.Post.findOne({ where: { id: req.params.id } });
+        if(!post){
+            return res.status(404).send('포스트가 존재하지 않습니다.');
+        }
+        const comments = await db.Comment.findAll({
+            where: {
+                PostId: req.params.id,
+            },
+            include:[{
+                model: db.User,
+                attributes: ['id', 'nickname'],
+            }],
+            order: [['createdAt', 'ASC'], ['updatedAt', 'DESC']] //정렬 생성시간으로 ASC오름차순 DESC내림차순, 이차원 배열인 이유는 2번째 3번째 정렬옵션이 들어갈수 있어서
+        });
+        return res.json(comments);
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+});
 router.post('/:id/comment', isLoggedIn, async (req, res, next) => { //POST /post/id/comment id가 params req.params.id
     try {
         const post = await db.Post.findOne({ where: { id: req.params.id } });
@@ -126,7 +126,7 @@ router.post('/:id/comment', isLoggedIn, async (req, res, next) => { //POST /post
                 id: newComment.id,
             },
             include: [{
-                model: User.id,
+                model: db.User,
                 attributes: ['id', 'nickname'],
             }],
         });
@@ -137,5 +137,7 @@ router.post('/:id/comment', isLoggedIn, async (req, res, next) => { //POST /post
     }
 });
 
-
+router.post('/:id/retweet', async (req, res, next) => {
+    
+})
 module.exports = router;

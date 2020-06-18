@@ -30,31 +30,34 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {
            });
         }
         const hash = await bcrypt.hash(req.body.password, 12);
-        await db.User.create({
+        const user = await db.User.create({
                 email: req.body.email,
                 password: hash,
                 nickname: req.body.nickname
         });
+
+        return res.json(user);
+        //자동로그인 부분 잠깐 지워두자 이상해
         //HTTP status 코드 검색해서 여러상태코드 알아두기
-        passport.authenticate('local', (err, user, info) => {// 회원가입후 바로 로그인
-            if(err){
-                console.error(err);
-                return next(err);
-            }
-            if(info){
-                return res.status(401).json({
-                    errorCode: 13141,
-                    message: info.reason
-                });
-            }
-            return req.login(user, async (err) => { //세션에 사용자 정보 저장 어떻게 저장?? - serializeUser
-                if(err){
-                    console.error(err);
-                    return next(err);
-                }
-                return res.json(user);
-            });
-        })(req, res, next);
+        // passport.authenticate('local', (err, user, info) => { // 회원가입후 바로 로그인
+        //     if(err){
+        //         console.error(err);
+        //         return next(err);
+        //     }
+        //     if(info){
+        //         return res.status(401).json({
+        //             errorCode: 13141,
+        //             message: info.reason
+        //         });
+        //     }
+        //     return req.login(user, async (err) => { //세션에 사용자 정보 저장 어떻게 저장?? - serializeUser
+        //         if(err){
+        //             console.error(err);
+        //             return next(err);
+        //         }
+        //         return res.json(user);
+        //     });
+        // })(req, res, next);
 
     }catch(err){
         console.error(err);
@@ -63,7 +66,7 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {
 });
 
 router.post('/login', isNotLoggedIn, async (req, res, next) => { 
-    passport.authenticate('local', (err, user, info) => {
+    passport.authenticate('local', (err, user, info) => {   
         if(err){
             console.error(err);
             return next(err);

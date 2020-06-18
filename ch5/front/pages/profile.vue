@@ -44,7 +44,6 @@ export default {
         FollowList,
     },
     fetch({ store }) {
-        console.log('in');
         store.dispatch('users/loadFollowers');
         store.dispatch('users/loadFollowings');
     },
@@ -86,7 +85,8 @@ export default {
                     await this.$store.dispatch('users/changeNickname', {
                     nickname: this.nickname
                 });
-                }catch {
+                }catch(err) {
+                    console.error(err);
                     alert('닉네임 수정 에러.');
                 }
             }
@@ -94,28 +94,32 @@ export default {
         async deleteFollower(id){
             try{
                 await this.$store.dispatch('users/deleteFollower',{ id })
-            }catch{
+            }catch(err){
+                console.error(err);
                 alert('팔로워 삭제 에러');
             }
         },
         async deleteFollowing(id){
             try{
                 await this.$store.dispatch('users/deleteFollowing',{ id })
-            }catch{
+            }catch(err){
+                console.error(err);
                 alert('팔로잉 삭제 에러');
             }
         },
         async onLoadFollowings(){
             try{
                 await this.$store.dispatch('users/loadFollowings');
-            }catch{
+            }catch(err){
+                console.error(err);
                 alert('팔로잉 더보기 에러');
             }
         },
          async onLoadFollowers(){
             try{
                 await this.$store.dispatch('users/loadFollowers');
-            }catch{
+            }catch(err){
+                console.error(err);
                 alert('팔로워 더보기 에러');
             }
         }

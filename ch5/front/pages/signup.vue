@@ -97,11 +97,13 @@ export default {
                         email: this.email,
                         password: this.password,
                         nickname: this.nickname,
-                        password: this.password
-                    })    
-                }catch{
-                            alert('로그인 실패');
-                }
+                    });
+                    alert('회원가입 완료!');
+                    this.$router.push('/');
+                }catch(err){
+                    console.error(err);
+
+            }
                 
             }else{
                 alert('폼이 유효하지 않습니다.');

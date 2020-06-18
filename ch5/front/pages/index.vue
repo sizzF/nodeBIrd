@@ -18,7 +18,7 @@ export default {
         PostForm
     },
     fetch({ store }) {
-        store.dispatch('posts/loadPosts');
+       return store.dispatch('posts/loadPosts');
     },
     data() {
         return {
@@ -47,14 +47,15 @@ export default {
 
     methods: {
         async onScroll() {
-            if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 200 && this.newDataFlag){
+            if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 400 && this.newDataFlag){
                 if(this.hasMorePost){
                     try{
                         this.newDataFlag=false;
                         await this.$store.dispatch('posts/loadPosts');
                         this.newDataFlag=true;
 
-                    }catch{
+                    }catch(err){
+                        console.error(err);
                         alert('온스크롤 메소드 에러');
                     }
                 }

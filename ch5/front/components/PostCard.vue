@@ -84,13 +84,19 @@ export default {
                 postId: this.post.id
             });
         },
-        onToggleComment() {
-            if(!this.commentOpend){
-                this.$store.dispatch('posts/loadComments', {
+        async onToggleComment() {
+            try {
+                if(!this.commentOpened){
+                await this.$store.dispatch('posts/loadComments', {
                     postId: this.post.id
                 });
             }
             this.commentOpened = !this.commentOpened;
+
+            } catch (err) {
+                console.error(err);
+            }
+            
         }
     },
 }

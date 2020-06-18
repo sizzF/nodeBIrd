@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 export const state = () => ({
     mainPosts: [],
     hasMorePost: true,
@@ -12,12 +14,14 @@ export const mutations = {
         state.imagePaths = [];
     },
     removeMainPost(state, payload) {
-        const index = state.mainPosts.findIndex( v => v.id === payload.postId);
+        const index = state.mainPosts.findIndex( v => v.id === payload.PostId);
         state.mainPosts.splice(index, 1);
     },
     addComment(state, payload) {
-        const index = state.mainPosts.findIndex( v => v.id === payload.postId);
-        state.mainPosts[index].Comments.unshift(payload);
+        const index = state.mainPosts.findIndex( v => v.id === payload.PostId);
+        state.mainPosts[index].Comments.push(payload);
+        //Vue.set(state.mainPosts[index].Comments, state.mainPosts[index].Comments.length, payload);
+
     },
     loadPosts(state, payload) {
         
@@ -25,12 +29,11 @@ export const mutations = {
         state.hasMorePost = payload.length === limit; //10개씩 불러올때는 뒤에 더있을수있으니 true 10개 이하면 끝난거니 false
     },
     loadComments(state, payload) {
-        const index = state.mainPosts.findIndex( v => v.id === payload.postId);
+        const index = state.mainPosts.findIndex( v => v.id === payload.PostId);
         state.mainPosts[index].Comments = payload;
 
     },
     concatImagePaths(state, payload){
-        console.log(payload);
         state.imagePaths = state.imagePaths.concat(payload);
     },
     removeImagePath(state, payload){
@@ -42,7 +45,7 @@ export const actions = {
     async add({ commit, state}, payload){
         //서버에 게시글 등록
         try {
-            const res = await this.$axios.post('http://localhost:3085/post', {
+            const res = await this.$axios.post('/post', {
                 content: payload.content,
                 image: state.imagePaths
             }, {
@@ -50,24 +53,24 @@ export const actions = {
             });
             commit('addMainPost', res.data);
         } catch (err) {
-            
+            console.error(err);
         }
         
     },
     async remove({ commit }, payload){
         try {
-            await this.$axios.delete(`http://localhost:3085/post/${payload.postId}`, {
+            await this.$axios.delete(`/post/${payload.postId}`, {
                 withCredentials: true,
             });
             commit('removeMainPost', payload);
 
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     },
     async addComment({ commit }, payload){
         try {
-            const res = await this.$axios.post(`http://localhost:3085/post/${payload.postId}/comment`, {
+            const res = await this.$axios.post(`/post/${payload.postId}/comment`, {
                 content: payload.content,
 
             },{
@@ -77,39 +80,38 @@ export const actions = {
 
 
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     },
     async loadPosts({ commit, state }, payload){
         if(state.hasMorePost) {
             try {
-                console.log(state.mainPosts.length);
-                const res = await this.$axios.get(`http://localhost:3085/posts?offset=${state.mainPosts.length}&limit=10`)
+                const res = await this.$axios.get(`/posts?offset=${state.mainPosts.length}&limit=10`)
                 commit('loadPosts', res.data);
             } catch (err) {
-                console.log(err);
+                console.error(err);
             }
         }
     },
     async loadComments({ commit, router }, payload){
-        if(state.hasMorePost) {
-            try {
-                const res = await this.$axios.get(`http://localhost:3085/post/${payload.postId}/comments`);
-                commit('loadComments', res.data);
-            } catch (err) {
-                console.log(err);
-            }
+        try {
+            const res = await this.$axios.get(`/post/${payload.postId}/comments`);
+            res.data.PostId = payload.postId;
+            commit('loadComments', res.data);
+        } catch (err) {
+            console.error(err);
         }
     },
     async uploadImages({ commit }, payload){
         try{
-            const res = await this.$axios.post('http://localhost:3085/post/images', payload, {
+            const res = await this.$axios.post('/post/images', payload, {
             withCredentials: true,
             });
             console.log(res.data);
             commit('concatImagePaths', res.data);
-        }catch{
-            
+        }catch(err){
+            console.error(err);
+
         }
     }
 }

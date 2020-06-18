@@ -4,9 +4,9 @@
             v-model="content" 
             filled
             label="댓글 달기"
-            :hide-details="hideDetails"
             :success="success"
             :success-messages="successMessages"
+            :rules="[v => !!v || '댓글이 입력되지 않았어요.']"
             @input="onChangeTextarea"
             />
         <v-btn color="green" absolute top right style="color: white" type="submit">등록</v-btn>
@@ -52,7 +52,8 @@ export default {
                             postId: this.postId,
                             content: this.content,
                         });
-                    }catch{
+                    }catch(err){
+                        console.error(err);
                         alert('댓글작성 에러');
                     }
 

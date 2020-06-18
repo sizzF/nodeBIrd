@@ -44,12 +44,7 @@ import LoginForm from '../components/LoginForm';
 export default {
     components: {
         LoginForm
-    },
-    fetch({ store}) {
-        store.dispatch('users/loadUser');
-
-    },
-    
+    },    
     data(){
         return {
             hashtag: '',

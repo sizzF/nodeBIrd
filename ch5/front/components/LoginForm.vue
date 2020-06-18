@@ -65,8 +65,9 @@ export default {
                         password: this.password,
                         nickname: '조승민',
                     });
-                }catch{
-                        alert('로그인 실패');
+                }catch(err){
+                    console.error(err);
+                    alert('로그인 실패');
 
                 }  
                 this.$router.push({

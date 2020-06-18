@@ -13,12 +13,13 @@ const postRouter = require('./routes/post');
 const postsRouter = require('./routes/posts');
 const app = express();
 
-db.sequelize.sync();
+//db.sequelize.sync({ force: true });
+db.sequelize.sync({});
 
 
 app.use(morgan('dev'));
 app.use(cors({
-        origin: 'http://localhost:3000',
+        origin: 'http://localhost:3088',
         credentials: true
     }));
 app.use('/', express.static('uploads'));

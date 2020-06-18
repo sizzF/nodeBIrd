@@ -70,8 +70,9 @@ export default {
                     this.hideDetails = false;
                     this.success = true;
                     this.successMessages = '게시글 등록 성공';
-                }catch{
-                        alert('게시글 등록 실패');
+                }catch(err){
+                    console.error(err);
+                    alert('게시글 등록 실패');
                 }
                 
             }else{
@@ -83,7 +84,6 @@ export default {
             this.$refs.imageInput.click();
         },
         onChangeImages(e) {
-            console.log(e.target.files);
             const imageFormData = new FormData();
             [].forEach.call(e.target.files, (f) => {//유사배열의 값 가져오는 방식
                 imageFormData.append('image', f); // [image: [file1, file2]]

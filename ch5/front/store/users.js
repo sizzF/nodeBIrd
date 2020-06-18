@@ -47,12 +47,12 @@ export const mutations = { //동기적 작업
 export const actions = { //비동기적 작업 동기도됨
     async loadUser({ commit }) {
         try {
-            const res = this.$axios.get('http://localhost:3085/user',{
+            const res = await this.$axios.get('/user',{
                 withCredentials: true,
             });
             commit('SETME', res.data);
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
       
     },
@@ -60,15 +60,14 @@ export const actions = { //비동기적 작업 동기도됨
     async signUp(context, payload) { //context안에는 {commit, dispatch, state, rootState ,getters, rootGetters }
         //서버에 회원가입 요청
         try{
-            const res = await this.$axios.post('http://localhost:3085/user',{
+            const res = await this.$axios.post('/user',{
                 email: payload.email,
                 password: payload.password,
                 nickname: payload.nickname
             },{
                 withCredentials: true,
             });//user사용자를 post생성하다
-            console.log(res);
-            context.dispatch('logIn', res.data);
+            //context.dispatch('logIn', res.data);
         }catch(err){
             console.error(err);
         }
@@ -78,13 +77,12 @@ export const actions = { //비동기적 작업 동기도됨
 
     async logIn(context, payload) {
         try{
-            const res = await this.$axios.post('http://localhost:3085/user/login',{
+            const res = await this.$axios.post('/user/login',{
                 email: payload.email,
                 password: payload.password
             }, {
                 withCredentials: true,
             });
-            console.log(res);
             context.commit('SETME', res.data);
         }catch(err){
             console.error(err);
@@ -94,7 +92,7 @@ export const actions = { //비동기적 작업 동기도됨
 
     async logOut(context, payload) {
         try{
-            const data = await this.$axios.post('http://localhost:3085/user/logout',{},{
+            const data = await this.$axios.post('/user/logout',{},{
                 withCredentials: true,
             });
             context.commit('SETME', null);

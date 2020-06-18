@@ -10,4 +10,9 @@ module.exports = {
     ],
     pulgins: [],
     vuetify: {},
+    axios: {
+        browserBaseURL: 'http://localhost:3085',
+        baseURL: 'http://localhost:3085',
+        https: false,
+    }
 };
