@@ -74,7 +74,7 @@ export default {
     },
     methods: {
         onEditPost() {
-            this.$store.dispatch('posts/remove', {
+            this.$store.dispatch('posts/edit', {
                 postId: this.post.id
             });
 
