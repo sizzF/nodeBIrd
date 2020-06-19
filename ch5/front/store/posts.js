@@ -14,7 +14,7 @@ export const mutations = {
         state.imagePaths = [];
     },
     removeMainPost(state, payload) {
-        const index = state.mainPosts.findIndex( v => v.id === payload.PostId);
+        const index = state.mainPosts.findIndex( v => v.id === payload.postId);
         state.mainPosts.splice(index, 1);
     },
     addComment(state, payload) {
@@ -67,6 +67,20 @@ export const actions = {
             console.error(err);
         }
         
+    },
+    async edit({ commit }, payload){
+        try {
+            await this.$axios.patch(`/post/${payload.postId}`, {
+                content: payload.content,
+                image: state.imagePaths
+            }, {
+                withCredentials: true,
+            });
+            commit('editMainPost', payload);
+
+        } catch (err) {
+            console.error(err);
+        }
     },
     async remove({ commit }, payload){
         try {

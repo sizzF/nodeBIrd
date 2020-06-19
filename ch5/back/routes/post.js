@@ -21,11 +21,11 @@ const upload = multer({ //이미지 form데이터 해석후에 uploads폴더에 
     limit: { fileSize: 20 * 1024 * 1024 }
 });
 
-router.post('/images', isLoggedIn, upload.array('image'), (req, res) =>{
+router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) =>{
     res.json(req.files.map(v => v.filename));
 });
 
-router.post('/', isLoggedIn, async (req, res) => {
+router.post('/', isLoggedIn, async (req, res, next) => {
    try {
      
         const hashtags = req.body.content.match(/#[^\s#]+/g);
