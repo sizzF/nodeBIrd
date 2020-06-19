@@ -27,10 +27,24 @@
     </v-container>
     <v-container v-else>
         <v-card>
-            <v-container>
-                <div>안녕하세요 {{ me.nickname }}님</div>
-                <v-btn @click="onLogout">로그아웃</v-btn>
-            </v-container>   
+            <v-container style="display: flex">
+                <div style="flex: 4">안녕하세요 {{ me.nickname }}님</div>
+                <v-btn style="flex: 1" @click="onLogout">로그아웃</v-btn>
+            </v-container>
+                <div style="display: flex; text-align: center;">
+                    <v-card height="60px" style="flex: 1">
+                        <div style="margin-top: 5px">게시글</div>
+                        <div>?</div>    
+                    </v-card>
+                   <v-card height="60px" style="flex: 1">
+                        <div style="margin-top: 5px">팔로우</div>
+                        <div>?</div>    
+                    </v-card>
+                    <v-card height="60px" style="flex: 1">
+                        <div style="margin-top: 5px">팔로워</div>
+                        <div>?</div>    
+                    </v-card>
+                </div>
         </v-card>
     </v-container>
 </template>
