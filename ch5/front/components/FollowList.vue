@@ -3,7 +3,7 @@
         <v-col v-for="user in followList" :key="user.id" cols="12" md="4" style="display: inline-block;">
             <v-list-item>
                 <v-list-item-avatar color="indigo">
-                    <span>{{ user.nickname[0] }}</span>
+                    <span style="color: white">{{ user.nickname[0] }}</span>
                 </v-list-item-avatar>
                 <v-list-item-content>
                     <v-list-item-title>{{ user.nickname }}</v-list-item-title>

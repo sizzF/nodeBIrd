@@ -159,10 +159,10 @@ router.post('/:id/retweet', isLoggedIn, async (req, res, next) => {
             return res.status(403).send('자신의 글은 리트윗 할 수 없습니다.');
         }
         const retweetTargetId = post.RetweetId || post.id;
-        const exPost = db.Post.findOne({//이미 내가 리트윗한 글인경우
+        const exPost = await db.Post.findOne({//이미 내가 리트윗한 글인경우
             where: {
                 UserId: req.user.id,
-                RetweetId: retweetTargetId
+                RetweetId: retweetTargetId,
             }
         });
         if(exPost){

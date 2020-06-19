@@ -1,5 +1,3 @@
-import Vue from 'vue';
-
 export const state = () => ({
     mainPosts: [],
     hasMorePost: true,
@@ -24,7 +22,6 @@ export const mutations = {
 
     },
     loadPosts(state, payload) {
-        
         state.mainPosts = state.mainPosts.concat(payload);
         state.hasMorePost = payload.length === limit; //10개씩 불러올때는 뒤에 더있을수있으니 true 10개 이하면 끝난거니 false
     },
@@ -65,6 +62,7 @@ export const actions = {
             commit('addMainPost', res.data);
         } catch (err) {
             console.error(err);
+            alert(err.response.data);
         }
         
     },
@@ -80,6 +78,7 @@ export const actions = {
 
         } catch (err) {
             console.error(err);
+            alert(err.response.data);
         }
     },
     async remove({ commit }, payload){
@@ -91,6 +90,7 @@ export const actions = {
 
         } catch (err) {
             console.error(err);
+            alert(err.response.data);
         }
     },
     async addComment({ commit }, payload){
@@ -106,6 +106,7 @@ export const actions = {
 
         } catch (err) {
             console.error(err);
+            alert(err.response.data);
         }
     },
     async loadPosts({ commit, state }, payload){
@@ -115,6 +116,7 @@ export const actions = {
                 commit('loadPosts', res.data);
             } catch (err) {
                 console.error(err);
+                alert(err.response.data);
             }
         }
     },
@@ -125,6 +127,7 @@ export const actions = {
             commit('loadComments', res.data);
         } catch (err) {
             console.error(err);
+            alert(err.response.data);
         }
     },
     async uploadImages({ commit }, payload){
@@ -136,7 +139,7 @@ export const actions = {
             commit('concatImagePaths', res.data);
         }catch(err){
             console.error(err);
-
+            alert(err.response.data);
         }
     },
 
@@ -148,6 +151,7 @@ export const actions = {
             commit('addMainPost', res.data);
         } catch (err) {
             console.error(err);
+            alert(err.response.data);
         }
     },
 
@@ -162,6 +166,7 @@ export const actions = {
             });
         } catch (err) {
             console.error(err);
+            alert(err.response.data);
         }
     },
     
@@ -176,6 +181,7 @@ export const actions = {
             });
         } catch (err) {
             console.error(err);
+            alert(err.response.data);
         }
     }
 }

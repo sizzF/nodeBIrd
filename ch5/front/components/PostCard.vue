@@ -1,19 +1,16 @@
 <template>
     <div :style="{ marginBottom: '20px' }">
         <v-card>
-            <post-images :images="post.Images || []" />
-            <v-card-text>
-                <div>
-                    <h2>
-                        <nuxt-link :to="'/post/' + post.id">{{ post.User.nickname }}</nuxt-link>
-                    </h2>
-                    <div>{{ post.content }}</div>
-                    
-                    <!--<nuxt-link :to="'/post/' + post.id">{{ post.content }}</nuxt-link>-->
-                </div>
-            </v-card-text>
+            <div v-if="post.RetweetId && post.Retweet">
+                <v-subheader>{{post.User.nickname}}님이 리트윗 하셨습니다.</v-subheader>
+                <v-card style="margin: 0 20px">
+                    <post-content :post="post.Retweet" />
+                </v-card>
+            </div>
+           <post-content v-else :post="post" />
+
             <v-card-actions>
-                <v-btn text color="orange">
+                <v-btn text color="orange" @click="onRetweet">
                     <v-icon>mdi-twitter-retweet</v-icon>
                 </v-btn>
                  <v-btn text color="orange" @click="onClickHeart">
@@ -56,10 +53,12 @@
 <script>
 import CommentForm from './CommentForm'
 import PostImages from './PostImages'
+import PostContent from './PostContent'
 export default {
     components: {
         CommentForm,
         PostImages,
+        PostContent,
     },
     props: {
         post: { 
@@ -97,7 +96,7 @@ export default {
             if(!this.me){
                 return alert('로그인이 필요합니다.');
             }
-            this.$store.dispatch('posts/retweet', {
+            return this.$store.dispatch('posts/onRetweet', {
                 postId: this.post.id,
             });
         },
@@ -115,17 +114,17 @@ export default {
             });
         },
         onEditPost() {
-            this.$store.dispatch('posts/edit', {
+            return this.$store.dispatch('posts/edit', {
                 postId: this.post.id
             });
 
         },
         onRemovePost() {
-            this.$store.dispatch('posts/remove', {
+            return this.$store.dispatch('posts/remove', {
                 postId: this.post.id
             });
         },
-        async onToggleComment() {
+        async onToggleComment() {//댓글쓰고 적용안되는건 post를 props로 받아와서그럼 나중에 댓글창을 따로 만들어
             try {
                 if(!this.commentOpened){
                 await this.$store.dispatch('posts/loadComments', {
@@ -133,7 +132,7 @@ export default {
                 });
             }
             this.commentOpened = !this.commentOpened;
-
+           
             } catch (err) {
                 console.error(err);
             }

@@ -37,7 +37,7 @@
        <div style="flex: 1; align-items: center; justify-content: center; display: flex" @click="zoomImages">
            <div style="text-align: center">
                 <v-icon>mdi-dots-horizontal</v-icon>
-                <div>더보기</div>
+                <div>{{images.length-1}}개 더보기</div>
            </div>
        </div>
         <image-zoom v-if="imageZoomed" :images="images" :close-modal="closeModal" />

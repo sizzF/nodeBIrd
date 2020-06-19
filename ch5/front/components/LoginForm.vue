@@ -38,11 +38,11 @@
                     </v-card>
                    <v-card height="60px" style="flex: 1">
                         <div style="margin-top: 5px">팔로우</div>
-                        <div>?</div>    
+                        <div>{{me.Followings.length}}</div>    
                     </v-card>
                     <v-card height="60px" style="flex: 1">
                         <div style="margin-top: 5px">팔로워</div>
-                        <div>?</div>    
+                        <div>{{me.Followers.length}}</div>    
                     </v-card>
                 </div>
         </v-card>

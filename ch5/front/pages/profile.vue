@@ -14,21 +14,25 @@
                             :rules="nicknameRules"
                             required
                         />
-                        <v-btn color="blue" type="submit">수정하기</v-btn>
+                        <v-btn dark color="blue" type="submit">수정하기</v-btn>
                     </v-container>
                 </v-form>
             </v-card>
 
             <v-card style="margin-bottom: 20px">
                 <v-container>
-                    <v-subheader>팔로잉 {{ followingListLength }}</v-subheader>
+                    <v-subheader>팔로잉 
+                        <span v-if="me">{{ me.Followings.length }}</span>
+                    </v-subheader>
                     <follow-list :follow-list="followingList" :remove="deleteFollowing" />
                     <v-btn v-if="hasMoreFollowing" dark color="blue" style="width: 100%;" @click="onLoadFollowings">더보기</v-btn>
                 </v-container>
             </v-card>
             <v-card style="margin-bottom: 20px">
                 <v-container>
-                    <v-subheader>팔로워 {{ followerListLength }}</v-subheader>
+                    <v-subheader>팔로워 
+                        <span v-if="me">{{ me.Followers.length }}</span>
+                    </v-subheader>
                     <follow-list :follow-list="followerList" :remove="deleteFollower" />
                     <v-btn v-if="hasMoreFollower" dark color="blue" style="width: 100%;" @click="onLoadFollowers">더보기</v-btn>
                 </v-container>
@@ -44,8 +48,10 @@ export default {
         FollowList,
     },
     fetch({ store }) {
-        store.dispatch('users/loadFollowers');
-        store.dispatch('users/loadFollowings');
+      return Promise.all([
+        store.dispatch('users/loadFollowings', { offset: 0 }),
+        store.dispatch('users/loadFollowers', { offset: 0 }),
+      ]);
     },
     data() {
         return {
@@ -59,23 +65,29 @@ export default {
         }
     },
     computed: {
+        me() {
+            return this.$store.state.users.me;
+        },
         followerList() {
             return this.$store.state.users.followerList;
         },
         followingList() {
             return this.$store.state.users.followingList;
         },
-        followerListLength() {
-            return this.$store.state.users.followerList.length;
-        },
-        followingListLength() {
-            return this.$store.state.users.followingList.length;
-        },
         hasMoreFollowing() {
             return this.$store.state.users.hasMoreFollowing;
         },
         hasMoreFollower() {
             return this.$store.state.users.hasMoreFollower;
+        }
+    },
+    watch: {
+        me(value, oldvalue) {
+            if(!value){
+                this.$router.push({
+                    path: '/',
+                });
+            }
         }
     },
     methods: {

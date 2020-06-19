@@ -18,7 +18,7 @@ module.exports = () => {
                 });
             }
             const result = await bcrypt.compare(password, exUser.password);
-            if(result){
+            if(result){                       
                 return done(null, exUser);
             }else{
                 return done(null, false, {
