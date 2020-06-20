@@ -32,12 +32,12 @@ export default {
         me() {
             return this.$store.state.users.me;
         },
-        canFollow() {//로그인했는지, 게시글작성자 나아님, 이미 팔로우 안한사람
-            return this.me && this.post.User.id !== this.me.id && !this.me.Followings.find( v => v.id === this.post.User.id);
+        canFollow() {
+            return this.me && this.post.User.id !== this.me.id && !this.me.Followings.find(v => v.id === this.post.User.id);
         },
-        canUnFollow() {//로그인했는지, 게시글작성자 나아님, 이미 팔로우 안한사람
-            return this.me && this.post.User.id !== this.me.id && this.me.Followings.find( v => v.id === this.post.User.id);
-        }
+        canUnFollow() {
+            return this.me && this.post.User.id !== this.me.id && this.me.Followings.find(v => v.id === this.post.User.id);
+        },
     },
     
     methods: {

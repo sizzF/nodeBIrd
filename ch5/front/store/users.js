@@ -37,11 +37,11 @@ export const mutations = { //동기적 작업
         state.me.Followings.push({ id: payload.userId });
     },
     removeFollower(state, payload) {
-        const index = state.followerList.findIndex( v => v.id === payload.iuseridd);
+        const index = state.followerList.findIndex( v => v.id === payload.userId);
         state.me.Followers.splice(index, 1);    
     },
     removeFollowing(state, payload) {
-        const index = state.me.Followings.findIndex( v => v.id === payload.userid);
+        const index = state.me.Followings.findIndex( v => v.id === payload.userId);
         state.me.Followings.splice(index, 1);    
     },
 
