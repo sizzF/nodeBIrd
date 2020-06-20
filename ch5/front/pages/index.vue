@@ -23,7 +23,6 @@ export default {
     data() {
         return {
             name: 'nuxt.js',
-            newDataFlag: true,
         }
     },
     computed: {
@@ -47,12 +46,10 @@ export default {
 
     methods: {
         async onScroll() {
-            if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 400 && this.newDataFlag){
+            if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 400){
                 if(this.hasMorePost){
                     try{
-                        this.newDataFlag=false;
                         await this.$store.dispatch('posts/loadPosts');
-                        this.newDataFlag=true;
 
                     }catch(err){
                         console.error(err);

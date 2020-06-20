@@ -24,7 +24,7 @@
                     <v-subheader>팔로잉 
                         <span v-if="me">{{ me.Followings.length }}</span>
                     </v-subheader>
-                    <follow-list :follow-list="followingList" :remove="deleteFollowing" />
+                    <follow-list :follow-list="followingList" :remove="removeFollowing" />
                     <v-btn v-if="hasMoreFollowing" dark color="blue" style="width: 100%;" @click="onLoadFollowings">더보기</v-btn>
                 </v-container>
             </v-card>
@@ -33,7 +33,7 @@
                     <v-subheader>팔로워 
                         <span v-if="me">{{ me.Followers.length }}</span>
                     </v-subheader>
-                    <follow-list :follow-list="followerList" :remove="deleteFollower" />
+                    <follow-list :follow-list="followerList" :remove="removeFollower" />
                     <v-btn v-if="hasMoreFollower" dark color="blue" style="width: 100%;" @click="onLoadFollowers">더보기</v-btn>
                 </v-container>
             </v-card>
@@ -50,8 +50,8 @@ export default {
     fetch({ store }) {
         
         return Promise.all([
-            store.dispatch('users/loadFollowings', 0),
-            store.dispatch('users/loadFollowers', 0),
+            store.dispatch('users/loadFollowings', { offset: 0 }),
+            store.dispatch('users/loadFollowers', { offset: 0 }),
         ]);
     },
     data() {
@@ -104,17 +104,17 @@ export default {
                 }
             }
         },
-        async deleteFollower(id){
+        async removeFollower(userId){
             try{
-                await this.$store.dispatch('users/deleteFollower',{ id })
+                await this.$store.dispatch('users/removeFollower',{ userId })
             }catch(err){
                 console.error(err);
                 alert('팔로워 삭제 에러');
             }
         },
-        async deleteFollowing(id){
+        async removeFollowing(userId){
             try{
-                await this.$store.dispatch('users/deleteFollowing',{ id })
+                await this.$store.dispatch('users/unFollow',{ userId })
             }catch(err){
                 console.error(err);
                 alert('팔로잉 삭제 에러');

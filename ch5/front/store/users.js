@@ -1,3 +1,4 @@
+import Vue from 'vue';
 export const state = () => ({
     me: null,//로그인 상태확인
     followerList: [],
@@ -37,12 +38,17 @@ export const mutations = { //동기적 작업
         state.me.Followings.push({ id: payload.userId });
     },
     removeFollower(state, payload) {
-        const index = state.followerList.findIndex( v => v.id === payload.userId);
-        state.me.Followers.splice(index, 1);    
+        let index = state.followerList.findIndex( v => v.id === payload.userId);
+        state.followerList.splice(index, 1);
+        index = state.me.Followers.findIndex( v => v.id === payload.userId);
+        state.me.Followers.splice(index, 1);
+
     },
     removeFollowing(state, payload) {
-        const index = state.me.Followings.findIndex( v => v.id === payload.userId);
+        let index = state.me.Followings.findIndex( v => v.id === payload.userId);
         state.me.Followings.splice(index, 1);    
+        index = state.followingList.findIndex( v => v.id === payload.userId);
+        state.followingList.splice(index, 1);    
     },
 
 };
@@ -56,7 +62,7 @@ export const actions = { //비동기적 작업 동기도됨
             commit('SETME', res.data);
         } catch (err) {
             console.error(err);
-            // alert(err.response.data);
+            alert(err.response.data);
         }
       
     },
@@ -74,7 +80,7 @@ export const actions = { //비동기적 작업 동기도됨
             //context.dispatch('logIn', res.data);
         }catch(err){
             console.error(err);
-            // alert(err.response.data);
+            alert(err.response.data);
         }
         
        
@@ -91,7 +97,7 @@ export const actions = { //비동기적 작업 동기도됨
             context.commit('SETME', res.data);
         }catch(err){
             console.error(err);
-            // alert(err.response.data);
+            alert(err.response.data);
             
         }
        
@@ -105,7 +111,7 @@ export const actions = { //비동기적 작업 동기도됨
             context.commit('SETME', null);
         }catch(err){
             console.error(err);
-            // alert(err.response.data);
+            alert(err.response.data);
         }
     },
     async changeNickname({ commit }, payload){
@@ -118,20 +124,25 @@ export const actions = { //비동기적 작업 동기도됨
             console.error(err);
         }
     },
-    deleteFollower({ commit }, payload){
-        commit('deleteFollower', payload);
-    },
-    deleteFollowing({ commit }, payload){
-        commit('deleteFollowing', payload);
+    async removeFollower({ commit }, payload){
+        try {
+            const res = await this.$axios.delete(`/user/${payload.userId}/follower`,{
+                withCredentials: true,
+            });
+            commit('removeFollower', { userId: payload.userId });
+        } catch (err) {
+            console.error(err);
+        }
     },
     async loadFollowers({ commit, state }, payload){
         try {
-                if (!(payload && payload.offset === 0) && !state.hasMoreFollowing) {
-                    return;
-                }
+            if (!(payload && payload.offset === 0) && !state.hasMoreFollower) {
+                return;
+            }
             if(state.hasMoreFollower){
-                const offset = state.followerList.length;
+                let offset = state.followerList.length;
                 if (payload && payload.offset === 0){
+                    console.log(payload);
                     offset = 0;
                 }
                 const res = await this.$axios.get(`/user/${state.me.id}/followers?limit=3&offset=${offset}`, {
@@ -153,8 +164,9 @@ export const actions = { //비동기적 작업 동기도됨
                 return;
             }
             if(state.hasMoreFollowing){
-                const offset = state.followingList.length;
+                let offset = state.followingList.length;
                 if (payload && payload.offset === 0){
+                    console.log(payload);
                     offset = 0;
                 }
                 const res = await this.$axios.get(`/user/${state.me.id}/followings?limit=3&offset=${offset}`, {
@@ -181,7 +193,7 @@ export const actions = { //비동기적 작업 동기도됨
             });
         } catch (err) {
             console.error(err);
-            // alert(err.response.data);
+            alert(err.response.data);
         }
     },
 
@@ -195,7 +207,7 @@ export const actions = { //비동기적 작업 동기도됨
             });
         } catch (err) {
             console.error(err);
-            // alert(err.response.data);
+            alert(err.response.data);
         }
     },
 

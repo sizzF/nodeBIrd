@@ -30,11 +30,16 @@
             <v-container style="display: flex">
                 <div style="flex: 4">안녕하세요 {{ me.nickname }}님</div>
                 <v-btn style="flex: 1" @click="onLogout">로그아웃</v-btn>
+                <!-- <v-row>
+                    <v-col cols="4">{{me.Followings.length}} 팔로잉</v-col>
+                    <v-col cols="4">{{me.Followers.length}} 팔로워</v-col>
+                    <v-col cols="4">{{me.Posts.length || '?'}} 게시글</v-col>
+                </v-row> -->
             </v-container>
                 <div style="display: flex; text-align: center;">
                     <v-card height="60px" style="flex: 1">
                         <div style="margin-top: 5px">게시글</div>
-                        <div>?</div>    
+                        <div>{{ me.Posts.length }}</div>    
                     </v-card>
                    <v-card height="60px" style="flex: 1">
                         <div style="margin-top: 5px">팔로우</div>

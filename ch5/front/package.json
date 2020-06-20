@@ -10,11 +10,11 @@
   },
   "author": "",
   "license": "ISC",
-  
   "dependencies": {
     "@nuxtjs/axios": "^5.11.0",
     "@nuxtjs/vuetify": "^1.11.2",
     "axios": "^0.19.2",
+    "lodash.throttle": "^4.1.1",
     "nuxt": "^2.12.2",
     "vue": "^2.6.11",
     "vuetify": "^2.2.32"

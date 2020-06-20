@@ -1,3 +1,5 @@
+import Vue from 'vue';
+import throttle from 'lodash.throttle';
 export const state = () => ({
     mainPosts: [],
     hasMorePost: true,
@@ -109,18 +111,19 @@ export const actions = {
             alert(err.response.data);
         }
     },
-    async loadPosts({ commit, state }, payload){
+    loadPosts: throttle(async function({ commit, state }, payload){
         if(state.hasMorePost) {
             try {
-                const res = await this.$axios.get(`/posts?offset=${state.mainPosts.length}&limit=10`)
+                const lastPost = state.mainPosts[state.mainPosts.length - 1];
+                const res = await this.$axios.get(`/posts?lastId=${lastPost && lastPost.id}&limit=10`)
                 commit('loadPosts', res.data);
             } catch (err) {
                 console.error(err);
                 alert(err.response.data);
             }
         }
-    },
-    async loadComments({ commit, router }, payload){
+    }, 2000),
+    async loadComments({ commit }, payload){
         try {
             const res = await this.$axios.get(`/post/${payload.postId}/comments`);
             res.data.PostId = payload.postId;
