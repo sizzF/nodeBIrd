@@ -1,25 +1,7 @@
 <template>
     <div>
         <v-container>
-            <v-card style="margin-bottom: 20px">
-                <v-container>
-                    {{other.nickname}}
-                    <div style="display: flex; text-align: center;">
-                    <v-card height="60px" style="flex: 1">
-                        <div style="margin-top: 5px">게시글</div>
-                        <div>{{ other.Posts.length }}</div>    
-                    </v-card>
-                   <v-card height="60px" style="flex: 1">
-                        <div style="margin-top: 5px">팔로우</div>
-                        <div>{{other.Followings.length}}</div>    
-                    </v-card>
-                    <v-card height="60px" style="flex: 1">
-                        <div style="margin-top: 5px">팔로워</div>
-                        <div>{{other.Followers.length}}</div>    
-                    </v-card>
-                </div>
-                </v-container>
-            </v-card>
+            <post-form v-if="me" />
             <div>
                 <post-card v-for="post in mainPosts" :key="post.id" :post="post" />
             </div>
@@ -29,15 +11,14 @@
 
 <script>
 import PostCard from '~/components/PostCard'
+import PostForm from '~/components/PostForm'
 export default {
     components: {
         PostCard,
+        PostForm
     },
-    fetch({ store, params }) {
-       return Promise.all([
-           store.dispatch('users/loadOther', { userId: params.id }),
-           store.dispatch('posts/loadUserPosts', { userId: params.id, refresh: true })
-           ]);
+    fetch({ store }) {
+       return store.dispatch('posts/loadPosts', {refresh: true});
     },
     data() {
         return {
@@ -47,9 +28,6 @@ export default {
     computed: {
         me() {
             return this.$store.state.users.me;
-        },
-        other() {
-            return this.$store.state.users.other;
         },
         mainPosts() {
             return this.$store.state.posts.mainPosts;
@@ -71,7 +49,7 @@ export default {
             if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 400){
                 if(this.hasMorePost){
                     try{
-                        await this.$store.dispatch('posts/loadUserPosts', { userId: this.$route.params.id });
+                        await this.$store.dispatch('posts/loadPosts');
 
                     }catch(err){
                         console.error(err);
