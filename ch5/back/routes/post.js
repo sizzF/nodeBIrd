@@ -70,7 +70,34 @@ router.post('/', isLoggedIn, async (req, res, next) => {
        next(err)
    }
 });
-
+router.get( '/:id', async (req, res ,next) => { //게시글 수정부분 구현, 부분수정 patch 전체수정 put
+    try {
+        const post = await db.Post.findOne({
+            where: { id: parseInt(req.params.id, 10) },
+            include: [{
+                model: db.User,
+                attributes: ['id', 'nickname'],
+            }, {
+                model: db.User,
+                as: Likers,
+                attributes: ['id'],
+            }, {
+                model: db.Post,
+                as: 'Retweet',
+                include: [{
+                    model: db.User,
+                    attributes: ['id', 'nickname'],
+                }, {
+                    model: db.Image,
+                }],
+            }],
+        });
+        res.json(post);
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+});
 router.patch( '/:id', isLoggedIn, async (req, res ,next) => { //게시글 수정부분 구현, 부분수정 patch 전체수정 put
     try {
         
@@ -78,7 +105,7 @@ router.patch( '/:id', isLoggedIn, async (req, res ,next) => { //게시글 수정
         console.log(err);
         next(err);
     }
-})
+});
 router.delete('/:id', isLoggedIn, async (req, res, next) => {
     try {
         await db.Post.destroy({
