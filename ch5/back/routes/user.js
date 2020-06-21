@@ -171,10 +171,18 @@ router.get('/:id/followings', isLoggedIn, async (req, res, next) => {
       const user = await db.User.findOne({
         where: { id: req.user.id },
       });
+      let where ={};
+      if(parseInt(req.query.lastId, 10)){
+          where = {
+              id: {
+                  [db.Sequelize.Op.gt]: parseInt(req.query.lastId, 10),
+              },
+          };
+      }
       const followings = await user.getFollowings({
+        where,
         attributes: ['id', 'nickname'],
         limit: parseInt(req.query.limit || 3, 10),
-        offset: parseInt(req.query.offset || 0, 10),
       });
       res.json(followings);
     } catch (err) {
@@ -188,10 +196,18 @@ router.get('/:id/followers', isLoggedIn, async (req, res, next) => {
       const user = await db.User.findOne({
         where: { id: req.user.id },
       });
+      let where ={};
+      if(parseInt(req.query.lastId, 10)){
+          where = {
+              id: {
+                  [db.Sequelize.Op.lt]: parseInt(req.query.lastId, 10),
+              },
+          };
+      }
       const followers = await user.getFollowers({
+        where,
         attributes: ['id', 'nickname'],
         limit: parseInt(req.query.limit || 3, 10),
-        offset: parseInt(req.query.offset || 0, 10),
       });
       res.json(followers);
     } catch (err) {

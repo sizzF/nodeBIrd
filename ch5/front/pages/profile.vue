@@ -48,10 +48,9 @@ export default {
         FollowList,
     },
     fetch({ store }) {
-        
         return Promise.all([
-            store.dispatch('users/loadFollowings', { offset: 0 }),
-            store.dispatch('users/loadFollowers', { offset: 0 }),
+            store.dispatch('users/loadFollowings', { refresh: true }),
+            store.dispatch('users/loadFollowers', { refresh: true }),
         ]);
     },
     data() {

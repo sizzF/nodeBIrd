@@ -24,8 +24,13 @@ export const mutations = {
 
     },
     loadPosts(state, payload) {
-        state.mainPosts = state.mainPosts.concat(payload);
-        state.hasMorePost = payload.length === limit; //10개씩 불러올때는 뒤에 더있을수있으니 true 10개 이하면 끝난거니 false
+        if(payload.refresh) {
+            state.mainPosts = payload.data;
+            state.hasMorePost = payload.data.length === limit; //10개씩 불러올때는 뒤에 더있을수있으니 true 10개 이하면 끝난거니 false
+        }else {
+            state.mainPosts = state.mainPosts.concat(payload.data);
+            state.hasMorePost = payload.data.length === limit; //10개씩 불러올때는 뒤에 더있을수있으니 true 10개 이하면 끝난거니 false
+        }
     },
     loadComments(state, payload) {
         const index = state.mainPosts.findIndex( v => v.id === payload.PostId);
@@ -112,14 +117,23 @@ export const actions = {
         }
     },
     loadPosts: throttle(async function({ commit, state }, payload){
-        if(state.hasMorePost) {
+        if(state.hasMorePost || (payload && payload.refresh)) {
             try {
-                const lastPost = state.mainPosts[state.mainPosts.length - 1];
-                const res = await this.$axios.get(`/posts?lastId=${lastPost && lastPost.id}&limit=10`)
-                commit('loadPosts', res.data);
+                let lastPost;
+                let res;
+                if(payload && payload.refresh){
+                    lastPost = undefined;
+                }else{
+                    lastPost = state.mainPosts[state.mainPosts.length - 1];
+                }
+                res = await this.$axios.get(`/posts?lastId=${lastPost && lastPost.id}&limit=10`)
+                commit('loadPosts', {
+                    data: res.data,
+                    refresh: payload && payload.refresh
+                });
             } catch (err) {
                 console.error(err);
-                alert(err.response.data);
+               // alert(err.response.data);
             }
         }
     }, 2000),

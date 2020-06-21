@@ -18,7 +18,7 @@ export default {
         PostForm
     },
     fetch({ store }) {
-       return store.dispatch('posts/loadPosts');
+       return store.dispatch('posts/loadPosts', {refresh: true});
     },
     data() {
         return {

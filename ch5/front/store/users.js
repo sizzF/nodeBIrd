@@ -19,16 +19,18 @@ export const mutations = { //동기적 작업
         state.me.nickname = payload.nickname;
     },  
     loadFollowers(state, payload){
-        if(payload.offset === 0) {
+        if(payload.refresh) {
             state.followerList = payload.data;
+            state.hasMoreFollower = payload.data.length === limit;
         } else {
             state.followerList = state.followerList.concat(payload.data);
             state.hasMoreFollower = payload.data.length === limit;
         }
     },
     loadFollowings(state, payload){
-        if(payload.offset === 0) {
+        if(payload.refresh) {
             state.followingList = payload.data;
+            state.hasMoreFollowing = payload.data.length === limit;    
         } else {
             state.followingList = state.followingList.concat(payload.data);
             state.hasMoreFollowing = payload.data.length === limit;    
@@ -50,6 +52,9 @@ export const mutations = { //동기적 작업
         index = state.followingList.findIndex( v => v.id === payload.userId);
         state.followingList.splice(index, 1);    
     },
+    addPostId(state, payload) {
+        state.me.Posts.push({ id: payload.id });
+    }
 
 };
 
@@ -136,21 +141,17 @@ export const actions = { //비동기적 작업 동기도됨
     },
     async loadFollowers({ commit, state }, payload){
         try {
-            if (!(payload && payload.offset === 0) && !state.hasMoreFollower) {
-                return;
-            }
-            if(state.hasMoreFollower){
-                let offset = state.followerList.length;
-                if (payload && payload.offset === 0){
-                    console.log(payload);
-                    offset = 0;
+            if(state.hasMoreFollower || (payload && payload.refresh)){
+                let lastId = state.followerList[state.followerList.length-1];
+                if (payload && payload.refresh){
+                    lastId = undefined;
                 }
-                const res = await this.$axios.get(`/user/${state.me.id}/followers?limit=3&offset=${offset}`, {
+                const res = await this.$axios.get(`/user/${state.me.id}/followers?limit=3&lastId=${lastId && lastId.id}`, {
                     withCredentials: true,
                 });
                 commit('loadFollowers', {
                     data: res.data,
-                    offset,
+                    refresh: payload && payload.refresh,
                 });
             }
         } catch (err) {
@@ -160,21 +161,17 @@ export const actions = { //비동기적 작업 동기도됨
     },
     async loadFollowings({ commit, state }, payload){
         try {
-            if (!(payload && payload.offset === 0) && !state.hasMoreFollowing) {
-                return;
-            }
-            if(state.hasMoreFollowing){
-                let offset = state.followingList.length;
-                if (payload && payload.offset === 0){
-                    console.log(payload);
-                    offset = 0;
+            if(state.hasMoreFollowing || (payload && payload.refresh)){
+                let lastId = state.followingList[state.followingList.length-1];
+                if (payload && payload.refresh){
+                    lastId = undefined;
                 }
-                const res = await this.$axios.get(`/user/${state.me.id}/followings?limit=3&offset=${offset}`, {
+                const res = await this.$axios.get(`/user/${state.me.id}/followings?limit=3&lastId=${lastId && lastId.id}`, {
                     withCredentials: true,
                 });
                 commit('loadFollowings', {
                     data: res.data,
-                    offset,
+                    refresh: payload && payload.refresh,
                 });
             }
         } catch (err) {
