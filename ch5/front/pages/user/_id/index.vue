@@ -3,7 +3,7 @@
         <v-container>
             <v-card style="margin-bottom: 20px">
                 <v-container>
-                    {{other.nickname}}
+                    {{ other.nickname }}
                     <div style="display: flex; text-align: center;">
                     <v-card height="60px" style="flex: 1">
                         <div style="margin-top: 5px">게시글</div>
@@ -11,11 +11,11 @@
                     </v-card>
                    <v-card height="60px" style="flex: 1">
                         <div style="margin-top: 5px">팔로우</div>
-                        <div>{{other.Followings.length}}</div>    
+                        <div>{{ other.Followings.length }}</div>    
                     </v-card>
                     <v-card height="60px" style="flex: 1">
                         <div style="margin-top: 5px">팔로워</div>
-                        <div>{{other.Followers.length}}</div>    
+                        <div>{{ other.Followers.length }}</div>    
                     </v-card>
                 </div>
                 </v-container>

@@ -121,7 +121,7 @@ export const actions = {
     },
     async loadPost({ commit, state }, payload){
         try {
-            const res = await this.$axios.get(`/post/${payload}`);
+            const res = await this.$axios.get(`/post/${payload.postId}`);
             commit('loadPost', res.data);
         } catch (err) {
             console.error(err);

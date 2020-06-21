@@ -23,6 +23,9 @@ export const mutations = {
         //Vue.set(state.mainPosts[index].Comments, state.mainPosts[index].Comments.length, payload);
 
     },
+    loadPost(state, payload) {
+        state.mainPosts = [payload];
+    },
     loadPosts(state, payload) {
         if(payload.refresh) {
             state.mainPosts = payload.data;
@@ -114,6 +117,15 @@ export const actions = {
         } catch (err) {
             console.error(err);
             alert(err.response.data);
+        }
+    },
+    async loadPost({ commit, state }, payload){
+        try {
+            const res = await this.$axios.get(`/post/${payload.postId}`);
+            commit('loadPost', res.data);
+        } catch (err) {
+            console.error(err);
+            // alert(err.response.data);
         }
     },
     loadPosts: throttle(async function({ commit, state }, payload){

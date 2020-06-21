@@ -14,7 +14,7 @@ export default {
         PostCard
     },
     fetch({ store, params }) {
-        return store.dispatch('posts/loadPost', params.id);
+        return store.dispatch('posts/loadPost', { postId: params.id });
     },
     computed: {
         post() {

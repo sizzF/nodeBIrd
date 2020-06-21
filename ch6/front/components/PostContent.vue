@@ -11,12 +11,20 @@
         <v-card-text>
             <div> 
                 <template v-for="(node, i) in nodes">
-                    <nuxt-link v-if="node.startsWith('#')" :key="i" :to="`/hashtag/${node.slice(1)}`" style="color: gray;">{{node}}</nuxt-link>
+                    <nuxt-link 
+                    v-if="node.startsWith('#')" 
+                    :key="i" 
+                    :to="`/hashtag/${node.slice(1)}`"
+                     style="color: gray;"
+                     >
+                     {{ node }}
+                     </nuxt-link>
                     <template v-else>
-                        {{node}}
+                        {{ node }}
                     </template>
                 </template>
             </div>
+            <div style="color: green">{{ $moment(post.createdAt).fromNow() }}</div>
         </v-card-text>
     </div>
 </template>

@@ -6,12 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
     "lint": "eslint **/*"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@nuxtjs/axios": "^5.11.0",
+    "@nuxtjs/moment": "^1.6.1",
     "@nuxtjs/vuetify": "^1.11.2",
     "axios": "^0.19.2",
     "lodash.throttle": "^4.1.1",
