@@ -4,6 +4,7 @@ export const state = () => ({
     mainPosts: [],
     hasMorePost: true,
     imagePaths: [],
+    modifyImagePaths: [],
 });
 
 const limit = 10;
@@ -13,6 +14,12 @@ export const mutations = {
         state.mainPosts.unshift(payload);//새글이 앞에오도록
         state.imagePaths = [];
     },
+    modifyMainPost(state, payload) {
+        const index = state.mainPosts.findIndex( v => v.id === payload.postId);
+        state.mainPosts[index] = payload.data;//새글이 앞에오도록
+        state.mainPosts = state.mainPosts.concat();
+        state.modifyImagePaths = [];
+    },
     removeMainPost(state, payload) {
         const index = state.mainPosts.findIndex( v => v.id === payload.postId);
         state.mainPosts.splice(index, 1);
@@ -20,8 +27,6 @@ export const mutations = {
     addComment(state, payload) {
         const index = state.mainPosts.findIndex( v => v.id === payload.PostId);
         state.mainPosts[index].Comments.push(payload);
-        //Vue.set(state.mainPosts[index].Comments, state.mainPosts[index].Comments.length, payload);
-
     },
     loadPost(state, payload) {
         state.mainPosts = [payload];
@@ -43,8 +48,17 @@ export const mutations = {
     concatImagePaths(state, payload){
         state.imagePaths = state.imagePaths.concat(payload);
     },
+    concatModifyImagePaths(state, payload){
+        state.modifyImagePaths = state.modifyImagePaths.concat(payload);
+    },
     removeImagePath(state, payload){
         state.imagePaths.splice(payload, 1);
+    },
+    removeModifyImagePath(state, payload){
+        state.modifyImagePaths.splice(payload, 1);
+    },
+    deleteModifyImagePaths(state, payload){
+        state.modifyImagePaths = [];
     },
     likePost(state, payload){
         const index = state.mainPosts.findIndex( v => v.id === payload.postId);
@@ -70,6 +84,27 @@ export const actions = {
                 withCredentials: true
             });
             commit('addMainPost', res.data);
+        } catch (err) {
+            console.error(err);
+            alert(err.response.data);
+        }
+        
+    },
+    async update({ commit, state}, payload){
+        //서버에 게시글 등록
+        try {
+            console.log(payload.content);
+            const res = await this.$axios.patch('/post', {
+                postId: payload.postId,
+                content: payload.content,
+                image: state.modifyImagePaths
+            }, {
+                withCredentials: true
+            });
+            commit('modifyMainPost', {
+                data: res.data,
+                postId: payload.postId,
+            });
         } catch (err) {
             console.error(err);
             alert(err.response.data);
@@ -213,7 +248,18 @@ export const actions = {
             alert(err.response.data);
         }
     },
-
+    async modifyUploadImages({ commit }, payload){
+        try{
+            const res = await this.$axios.post('/post/images', payload, {
+            withCredentials: true,
+            });
+            console.log(res.data);
+            commit('concatModifyImagePaths', res.data);
+        }catch(err){
+            console.error(err);
+            alert(err.response.data);
+        }
+    },
     async onRetweet({ commit }, payload){
         try {
             const res = await this.$axios.post(`/post/${payload.postId}/retweet`,{},{

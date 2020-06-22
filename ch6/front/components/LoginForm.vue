@@ -28,7 +28,14 @@
     <v-container v-else>
         <v-card>
             <v-container style="display: flex">
-                <div style="flex: 4">안녕하세요 {{ me.nickname }}님</div>
+                <v-list-item style="flex: 4">
+                    <v-list-item-avatar color="indigo">
+                        <span style="color: white">{{ me.nickname[0] }}</span>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-title>{{ me.nickname }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
                 <v-btn style="flex: 1" @click="onLogout">로그아웃</v-btn>
                 <!-- <v-row>
                     <v-col cols="4">{{me.Followings.length}} 팔로잉</v-col>
@@ -38,8 +45,10 @@
             </v-container>
                 <div style="display: flex; text-align: center;">
                     <v-card height="60px" style="flex: 1">
+                        <nuxt-link :to="`/user/${me.id}`">
                         <div style="margin-top: 5px">게시글</div>
-                        <div>{{ me.Posts.length }}</div>    
+                        <div>{{ me.Posts.length }}</div>
+                         </nuxt-link>    
                     </v-card>
                    <v-card height="60px" style="flex: 1">
                         <div style="margin-top: 5px">팔로우</div>
@@ -103,6 +112,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-
+<style scoped>
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
 </style>

@@ -3,17 +3,19 @@
         <nav>
             <v-toolbar dark color="green">
                 <v-toolbar-title>
-                    <nuxt-link to="/" :style="{ color:'white', textDecoration:'none' }">NodeBird</nuxt-link>
+                    <nuxt-link to="/" :style="{ color:'white', textDecoration:'none' }">
+                    NodeBird
+                    </nuxt-link>
                 </v-toolbar-title>
                 <v-spacer />
                 <v-toolbar-items>
                     <v-form @submit.prevent="onSearchHashtag">
                         <div :style="{ display: 'flex', height: '100%', alignItems: 'center' }">
                             <v-text-field
-                            v-model="hashtag"
+                                v-model="hashtag"
                                 label="검색" 
                                 hide-details prepend-icon="mdi-magnify" 
-                                :style="{ display: 'flex', alignItems: 'center' }" 
+                                :style="{ display: 'flex', alignItems: 'center', width: '165px'}" 
                             />
                         </div>
                     </v-form>

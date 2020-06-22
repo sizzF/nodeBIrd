@@ -70,6 +70,55 @@ router.post('/', isLoggedIn, async (req, res, next) => {
        next(err)
    }
 });
+router.patch('/', isLoggedIn, async (req, res, next) => {
+    try {
+      
+         const hashtags = req.body.content.match(/#[^\s#]+/g);
+ 
+         const updatePost = await db.Post.findOne({
+            where: { id: req.body.postId },
+         });
+         updatePost.update({
+            UserId: req.user.id,
+            content: req.body.content,
+         })
+ 
+         if(hashtags){
+             console.log(hashtags);
+             const result = await Promise.all(hashtags.map(tag => db.Hashtag.findOrCreate({
+                 where: { name: tag.slice(1).toLowerCase() },
+             })));
+             await updatePost.addHashtags(result.map(r => r[0]));
+         }
+         const images = await db.Image.destroy({ where: { postId: updatePost.id }});
+         if(req.body.image){
+             if(Array.isArray(req.body.image)){
+                 await Promise.all(req.body.image.map((image) => {
+                     return db.Image.create({ src: image, PostId: updatePost.id });
+                 }));
+             }else{
+                 await db.Image.create({ src: image, PostId: updatePost.id });
+             }
+         }
+         const fullPost = await db.Post.findOne({
+             where: { id: updatePost.id },
+             include: [{
+                 model: db.User,
+                 attributes: ['id', 'nickname'],
+             },{
+                 model: db.User,
+                 as: 'Likers',
+                 attributes: ['id'],
+             }, {
+                 model: db.Image,
+             }],
+         });
+         return res.json(fullPost);
+     } catch (err) {
+        console.error(err);
+        next(err)
+    }
+ });
 router.get( '/:id', async (req, res ,next) => { //게시글 수정부분 구현, 부분수정 patch 전체수정 put
     try {
         const post = await db.Post.findOne({
@@ -81,6 +130,8 @@ router.get( '/:id', async (req, res ,next) => { //게시글 수정부분 구현,
                 model: db.User,
                 as: 'Likers',
                 attributes: ['id'],
+            },  {
+                model: db.Image,
             }, {
                 model: db.Post,
                 as: 'Retweet',
@@ -92,6 +143,7 @@ router.get( '/:id', async (req, res ,next) => { //게시글 수정부분 구현,
                 }],
             }],
         });
+        console.log(post);
         res.json(post);
     } catch (err) {
         console.log(err);

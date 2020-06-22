@@ -26,7 +26,7 @@
                         </v-btn>
                     </template>   
                     <div style="background: white">
-                        <v-btn text color="blue" @click="onEditPost">수정</v-btn>
+                        <v-btn text color="blue" @click="onPostEdit">수정</v-btn>
                         <v-btn text color="red" @click="onRemovePost">삭제</v-btn>
                     </div>                 
                 </v-menu>
@@ -48,17 +48,20 @@
                 </v-list>
             </v-card>
         </template>
+    <post-modify v-if="postEdit" :post="post" :close-modal="closePostEdit" />
     </div>
 </template>
 <script>
 import CommentForm from './CommentForm'
 import PostImages from './PostImages'
 import PostContent from './PostContent'
+import PostModify from './postModify'
 export default {
     components: {
         CommentForm,
         PostImages,
         PostContent,
+        PostModify,
     },
     props: {
         post: { 
@@ -69,6 +72,7 @@ export default {
     data() {
         return {
             commentOpened: false, 
+            postEdit: false,
         }
     },
     computed: {
@@ -113,11 +117,13 @@ export default {
                 postId: this.post.id,
             });
         },
-        onEditPost() {
-            return this.$store.dispatch('posts/edit', {
-                postId: this.post.id
-            });
-
+        onPostEdit() {
+            this.postEdit=true;
+            
+        },
+        closePostEdit() {
+            this.postEdit = false;
+            this.$store.commit('posts/deleteModifyImagePaths');
         },
         async onRemovePost() {
             try {
