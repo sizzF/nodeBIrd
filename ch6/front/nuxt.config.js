@@ -51,6 +51,6 @@ module.exports = {
         }
     },
     server: {
-        port: 3088,
+        port: process.envPORT || 3088,
     },
 };
