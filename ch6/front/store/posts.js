@@ -89,7 +89,7 @@ export const actions = {
             alert(err.response.data);
         }
         
-    }, 1000),
+    }, 4000),
     update: throttle(async function({ commit, state}, payload){
         //서버에 게시글 등록
         try {
@@ -110,7 +110,7 @@ export const actions = {
             alert(err.response.data);
         }
         
-    }, 1000),
+    }, 4000),
     async edit({ commit }, payload){
         try {
             await this.$axios.patch(`/post/${payload.postId}`, {
