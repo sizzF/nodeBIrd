@@ -21,7 +21,7 @@ const upload = multer({ //이미지 form데이터 해석후에 uploads폴더에 
         s3: new AWS.S3(),
         bucket: 'vue-nodebird-sizzf',
         key(req, file, cb) {
-            cb(null, `original/${Date.now()}${Path.basename(file.originalname)}`)
+            cb(null, `original/${Date.now()}${path.basename(file.originalname)}`)
         },
     }),
     limit: { fileSize: 20 * 1024 * 1024 }
