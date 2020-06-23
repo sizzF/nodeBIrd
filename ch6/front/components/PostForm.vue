@@ -20,7 +20,7 @@
                     <v-btn type="button" @click="onClickImageUpload">이미지 업로드</v-btn>
                     <div>
                         <div v-for="(p, i) in imagePaths" :key="p" style="display: inline-block; margin-right: 10px;">
-                            <img :src="p" :alt="p" style="width: 200px">
+                            <img :src="decodeURIComponent(p).replace(/original\//, 'thumb/')" :alt="p" style="width: 200px">
                             <div>
                                 <v-btn type="button" @click="onRemoveImage(i)">제거</v-btn>
                             </div>

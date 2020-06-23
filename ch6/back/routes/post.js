@@ -28,7 +28,7 @@ const upload = multer({ //이미지 form데이터 해석후에 uploads폴더에 
 });
 
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) =>{
-    res.json(req.files.map(v => v.location));
+    res.json(req.files.map(v => encodeURIComponent(v.location)));
 });
 
 router.post('/', isLoggedIn, async (req, res, next) => {
