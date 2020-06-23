@@ -51,12 +51,16 @@
                          </nuxt-link>    
                     </v-card>
                    <v-card height="60px" style="flex: 1">
+                       <nuxt-link :to="`/profile`">
                         <div style="margin-top: 5px">팔로우</div>
-                        <div>{{me.Followings.length}}</div>    
+                        <div>{{me.Followings.length}}</div>
+                       </nuxt-link>    
                     </v-card>
                     <v-card height="60px" style="flex: 1">
+                        <nuxt-link :to="`/profile`">
                         <div style="margin-top: 5px">팔로워</div>
                         <div>{{me.Followers.length}}</div>    
+                        </nuxt-link>
                     </v-card>
                 </div>
         </v-card>
