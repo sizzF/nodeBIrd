@@ -74,7 +74,7 @@ export const mutations = {
 };
 
 export const actions = {
-    async add({ commit, state}, payload){
+    add: throttle(async function({ commit, state }, payload){
         //서버에 게시글 등록
         try {
             const res = await this.$axios.post('/post', {
@@ -89,8 +89,8 @@ export const actions = {
             alert(err.response.data);
         }
         
-    },
-    async update({ commit, state}, payload){
+    }, 1000),
+    update: throttle(async function({ commit, state}, payload){
         //서버에 게시글 등록
         try {
             console.log(payload.content);
@@ -110,7 +110,7 @@ export const actions = {
             alert(err.response.data);
         }
         
-    },
+    }, 1000),
     async edit({ commit }, payload){
         try {
             await this.$axios.patch(`/post/${payload.postId}`, {
