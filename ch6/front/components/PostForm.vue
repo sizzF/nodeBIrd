@@ -89,7 +89,7 @@ export default {
         onChangeImages(e) {
             const imageFormData = new FormData();
             [].forEach.call(e.target.files, (f) => {//유사배열의 값 가져오는 방식
-                encodeURIComponent(imageFormData.append('image', f)); // [image: [file1, file2]]
+                imageFormData.append('image', f); // [image: [file1, file2]]
             });
             this.$store.dispatch('posts/uploadImages', imageFormData);
         },
