@@ -11,14 +11,14 @@
     </div>
     <div v-else-if="images.length === 2" style="display: flex">
         <v-img
-            :src="images[0].src.replace(/original\//, 'thumb')"
+            :src="images[0].src.replace(/original\//, 'thumb/')"
             contain
             aspect-ratio="2"
             style="flex: 1"
             @click="zoomImages"
         />
         <v-img
-            :src="images[1].src.replace(/original\//, 'thumb')"
+            :src="images[1].src.replace(/original\//, 'thumb/')"
             contain
             aspect-ratio="2"
             style="flex: 1"
@@ -28,7 +28,7 @@
     </div>
     <div v-else-if="images.length > 2" style="display: flex">
         <v-img
-            :src="images[0].src.replace(/original\//, 'thumb')"
+            :src="images[0].src.replace(/original\//, 'thumb/')"
             contain
             aspect-ratio="2"
             style="flex: 1"
