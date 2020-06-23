@@ -91,9 +91,7 @@ export default {
                     this.hideDetails = false;
                     this.success = true;
                     this.successMessages = '게시글 등록 성공';
-                    this.$store.commit('users/addPostId', {
-                        id: this.$store.state.posts.mainPosts[0].id
-                    });
+
                     this.closeModal();
                 }catch(err){
                     console.error(err);
