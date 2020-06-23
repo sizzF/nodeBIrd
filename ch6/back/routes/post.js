@@ -1,28 +1,34 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const AWS = require('aws-sdk');
+const multerS3 = require('multer-s3');
 
 const { isLoggedIn } = require('./middlewares');
 const db = require('../models');
 
 const router = express.Router();
 
+AWS.config.update({
+    region: 'us-east-2',
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+});
+
+
 const upload = multer({ //이미지 form데이터 해석후에 uploads폴더에 알아서 저장
-    storage: multer.diskStorage({
-        destination(req, file, done){ //어디다 저장할지
-            done(null, 'uploads');
-        },
-        filename(req, file, done){
-            const ext = path.extname(file.originalname);
-            const basename = path.basename(file.originalname, ext); //승민.png basename=승민, ext=png
-            done(null, basename + Date.now() + ext);
+    storage: multerS3({
+        s3: new AWS.S3(),
+        bucket: 'vue-nodebird-sizzf',
+        key(req, file, cb) {
+            cb(null, `original/${Date.now()}${Path.basename(file.originalname)}`)
         },
     }),
     limit: { fileSize: 20 * 1024 * 1024 }
 });
 
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) =>{
-    res.json(req.files.map(v => v.filename));
+    res.json(req.files.map(v => v.location));
 });
 
 router.post('/', isLoggedIn, async (req, res, next) => {
