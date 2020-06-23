@@ -273,7 +273,7 @@ router.get('/:id/followers', isLoggedIn, async (req, res, next) => {
       if(parseInt(req.query.lastId, 10)){
           where = {
               id: {
-                  [db.Sequelize.Op.lt]: parseInt(req.query.lastId, 10),
+                  [db.Sequelize.Op.gt]: parseInt(req.query.lastId, 10),
               },
           };
       }

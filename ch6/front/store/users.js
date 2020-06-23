@@ -1,4 +1,6 @@
 import Vue from 'vue';
+import throttle from 'lodash.throttle';
+
 export const state = () => ({
     me: null,//로그인 상태확인
     followerList: [],
@@ -91,7 +93,7 @@ export const actions = { //비동기적 작업 동기도됨
         }
       
     },
-    async signUp(context, payload) { //context안에는 {commit, dispatch, state, rootState ,getters, rootGetters }
+    signUp: throttle(async function(context, payload) { //context안에는 {commit, dispatch, state, rootState ,getters, rootGetters }
         //서버에 회원가입 요청
         try{
             const res = await this.$axios.post('/user',{
@@ -108,9 +110,9 @@ export const actions = { //비동기적 작업 동기도됨
         }
         
        
-    },
+    }, 5000),
 
-    async logIn(context, payload) {
+    logIn: throttle(async function(context, payload) {
         try{
             const res = await this.$axios.post('/user/login',{
                 email: payload.email,
@@ -125,9 +127,9 @@ export const actions = { //비동기적 작업 동기도됨
             
         }
        
-    },
+    }, 5000),
 
-    async logOut(context, payload) {
+    logOut: throttle(async function(context, payload) {
         try{
             const data = await this.$axios.post('/user/logout',{},{
                 withCredentials: true,
@@ -137,8 +139,9 @@ export const actions = { //비동기적 작업 동기도됨
             console.error(err);
             alert(err.response.data);
         }
-    },
-    async changeNickname({ commit }, payload){
+    }, 5000),
+
+    changeNickname: throttle(async function({ commit }, payload){
         try {
             const res = await this.$axios.patch('/user/nickname', { nickname: payload.nickname }, {
                 withCredentials: true,
@@ -148,7 +151,7 @@ export const actions = { //비동기적 작업 동기도됨
             console.error(err);
             alert(err.response.data);
         }
-    },
+    },3000),
     async removeFollower({ commit }, payload){
         try {
             const res = await this.$axios.delete(`/user/${payload.userId}/follower`,{
