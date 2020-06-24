@@ -15,7 +15,7 @@
                                 v-model="hashtag"
                                 label="검색" 
                                 hide-details prepend-icon="mdi-magnify" 
-                                :style="{ display: 'flex', alignItems: 'center'}" 
+                                :style="{ display: 'flex', alignItems: 'center', width: '195px'}" 
                             />
                         </div>
                     </v-form>
