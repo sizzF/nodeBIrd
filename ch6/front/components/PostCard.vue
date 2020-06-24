@@ -13,12 +13,17 @@
                 <v-btn text color="orange" @click="onRetweet">
                     <v-icon>mdi-twitter-retweet</v-icon>
                 </v-btn>
-                 <v-btn text color="orange" @click="onClickHeart">
+                <v-btn text color="orange" @click="onClickHeart">
                     <v-icon>{{ heartIcon }}</v-icon>
                 </v-btn>
-                 <v-btn text color="orange" @click="onToggleComment">
+                <v-btn text color="orange" @click="onToggleComment">
                     <v-icon>mdi-comment-outline</v-icon>
                 </v-btn>
+                <nuxt-link :to="`/post/${post.id}`">
+                    <v-btn text color="orange">
+                        <v-icon>mdi-share-variant</v-icon>
+                    </v-btn>
+                </nuxt-link>
                 <v-menu v-if="userId === post.User.id" offset-y open-on-hover>
                     <template v-slot:activator="{ on }">
                         <v-btn text color="orange" v-on="on">
