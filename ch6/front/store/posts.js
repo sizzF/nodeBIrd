@@ -27,6 +27,8 @@ export const mutations = {
     addComment(state, payload) {
         const index = state.mainPosts.findIndex( v => v.id === payload.PostId);
         state.mainPosts[index].Comments.push(payload);
+        Vue.set(state.mainPosts[index], 'Comments', state.mainPosts[index].Comments);
+
     },
     loadPost(state, payload) {
         state.mainPosts = [payload];
