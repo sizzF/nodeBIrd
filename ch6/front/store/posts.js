@@ -42,7 +42,7 @@ export const mutations = {
         }
     },
     loadComments(state, payload) {
-        const index = state.mainPosts.findIndex( v => v.id === payload.PostId);
+        const index = state.mainPosts.findIndex( v => v.id === payload.postId);
         //state.mainPosts[index].Comments = payload;
         Vue.set(state.mainPosts[index], 'Comments', payload.data);
 
@@ -233,8 +233,8 @@ export const actions = {
         try {
             const res = await this.$axios.get(`/post/${payload.postId}/comments`);
             commit('loadComments', {
-                PostId: payload.PostId,
-                data: res.data
+                postId: payload.postId,
+                data: res.data,
             });
         } catch (err) {
             console.error(err);
