@@ -27,7 +27,6 @@ export const mutations = {
     addComment(state, payload) {
         const index = state.mainPosts.findIndex( v => v.id === payload.PostId);
         state.mainPosts[index].Comments.push(payload);
-        Vue.set(state.mainPosts[index], 'Comments', state.mainPosts[index].Comments);
 
     },
     loadPost(state, payload) {
@@ -44,7 +43,9 @@ export const mutations = {
     },
     loadComments(state, payload) {
         const index = state.mainPosts.findIndex( v => v.id === payload.PostId);
-        state.mainPosts[index].Comments = payload;
+        //state.mainPosts[index].Comments = payload;
+        Vue.set(state.mainPosts[index], 'Comments', payload.data);
+
 
     },
     concatImagePaths(state, payload){
@@ -231,8 +232,10 @@ export const actions = {
     async loadComments({ commit }, payload){
         try {
             const res = await this.$axios.get(`/post/${payload.postId}/comments`);
-            res.data.PostId = payload.postId;
-            commit('loadComments', res.data);
+            commit('loadComments', {
+                PostId: payload.PostId,
+                data: res.data
+            });
         } catch (err) {
             console.error(err);
             alert(err.response.data);

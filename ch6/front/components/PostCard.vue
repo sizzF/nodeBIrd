@@ -53,13 +53,11 @@
 </template>
 <script>
 import CommentForm from './CommentForm'
-import PostImages from './PostImages'
 import PostContent from './PostContent'
 import PostModify from './postModify'
 export default {
     components: {
         CommentForm,
-        PostImages,
         PostContent,
         PostModify,
     },
