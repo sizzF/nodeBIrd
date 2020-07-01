@@ -24,8 +24,7 @@
                     </template>
                 </template>
             </div>
-            <div style="color: green">{{ $moment(post.createdAt).fromNow() }}</div>
-            <div style="color: green">좋아요 {{ post.Likers.length || '0' }}개</div>
+            <div style="color: green">{{ $moment(post.createdAt).fromNow() }}, 좋아요 {{ post.Likers.length || '0' }}개</div>
         </v-card-text>
     </div>
 </template>
