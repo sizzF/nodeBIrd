@@ -7,8 +7,8 @@
                     <post-content :post="post.Retweet" />
                 </v-card>
             </div>
-           <post-content v-else :post="post" />
-
+            <post-content v-else :post="post" />
+            <div>좋아요 {{ post.Likers.length || '0' }}개</div>
             <v-card-actions>
                 <v-btn text color="orange" @click="onRetweet">
                     <v-icon>mdi-twitter-retweet</v-icon>
