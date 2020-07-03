@@ -1,5 +1,8 @@
 <template>
     <v-container>
+            <v-alert v-if="finish" type="success">
+            I'm a success alert.
+            </v-alert>
         <v-card>
             <v-subheader>회원가입</v-subheader>
             <v-form ref="form" v-model="valid" @submit.prevent="onSubmitForm">
@@ -55,6 +58,7 @@ export default {
             passwordCheck: '',
             nickname: '',
             terms: false,
+            finish: false,
             emailRules: [
                 v => !!v || '이메일은 필수입니다.',
                 v => /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i.test(v) || '유효하지 않은 이메일입니다.'
@@ -98,7 +102,7 @@ export default {
                         password: this.password,
                         nickname: this.nickname,
                     });
-                    alert('회원가입 완료!');
+                    this.finish=true;
                     this.$router.push('/');
                 }catch(err){
                     console.error(err);
