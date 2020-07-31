@@ -27,7 +27,7 @@ if (prod) {
     app.use(hpp());
     app.use(morgan('combined'));
     app.use(cors({
-        origin: 'https://nodebird.site',
+        origin: 'http://nodebird.site',
         credentials: true
     }));
 
@@ -49,7 +49,8 @@ app.use(session({
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
     cookie: {
-        secure: true,
+        httpOnly: true,
+        secure: prod,
         domain: prod && '.nodebird.site',
     }
 }));
@@ -68,6 +69,6 @@ app.use('/post', postRouter);
 app.use('/posts/', postsRouter);
 app.use('/hashtag/', hashtagRouter);
 
-app.listen(prod ? process.env.PORT : 3085, () => {
+app.listen(prod ? process.env.PORT : 3085, '0.0.0.0', () => {
     console.log(`백엔드 서버 ${prod ? process.env.PORT : 3085}번 포트에서 작동중`);
 });
