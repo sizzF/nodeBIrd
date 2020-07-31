@@ -1,7 +1,7 @@
 <template>
     <v-container>
             <v-alert v-if="finish" type="success">
-            I'm a success alert.
+                회원가입 완료
             </v-alert>
         <v-card>
             <v-subheader>회원가입</v-subheader>

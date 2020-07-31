@@ -34,8 +34,8 @@ module.exports = {
     pulgins: [],
     vuetify: {},
     axios: {
-      browserBaseURL: process.env.NODE_ENV === 'production' ? 'http://api.nodebird.site' : 'http://localhost:3085',
-      baseURL: process.env.NODE_ENV === 'production' ? 'http://api.nodebird.site' : 'http://localhost:3085',
+      browserBaseURL: process.env.NODE_ENV === 'production' ? 'https://api.nodebird.site' : 'http://localhost:3085',
+      baseURL: process.env.NODE_ENV === 'production' ? 'https://api.nodebird.site' : 'http://localhost:3085',
         https: false,
     },
     moment: {
