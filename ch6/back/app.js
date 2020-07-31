@@ -71,12 +71,13 @@ app.use('/post', postRouter);
 app.use('/posts/', postsRouter);
 app.use('/hashtag/', hashtagRouter);
 
-app.listen(prod ? process.env.PORT : 3085, '0.0.0.0', () => {
-    console.log(`백엔드 서버 ${prod ? process.env.PORT : 3085}번 포트에서 작동중`);
-});
+//app.listen(prod ? process.env.PORT : 3085, '0.0.0.0', () => {
+//    console.log(`백엔드 서버 ${prod ? process.env.PORT : 3085}번 포트에서 작동중`);
+//});
 
 if (prod) {
-    const lex = require('greenlock-express').create({
+    const lex = require('greenlock-express');
+    lex.create({
         version: 'draft-11',
         configDir: '/etc/letsencrypt', // 또는 ~/letsencrypt/etc
         server: 'https://acme-v02.api.letsencrypt.org/directory',
