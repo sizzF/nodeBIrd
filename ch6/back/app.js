@@ -22,7 +22,7 @@ const app = express();
 dotenv.config();
 db.sequelize.sync({});
 
-if(prod){
+if (prod) {
     app.use(helmet());
     app.use(hpp());
     app.use(morgan('combined'));
@@ -31,7 +31,7 @@ if(prod){
         credentials: true
     }));
 
-}else {
+} else {
     app.use(morgan('dev'));
     app.use(cors({
         origin: 'http://localhost:3088',
@@ -60,7 +60,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', (req, res) => {
-    res.send('안녕 백엔드');
+    res.send(`nodebird 백엔드 ${prod ? process.env.PORT : 3085}`);
 });
 
 app.use('/user', userRouter);
