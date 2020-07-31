@@ -49,7 +49,7 @@ app.use(session({
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
     cookie: {
-        //httpOnly: true,
+        httpOnly: true,
         secure: prod,
         domain: prod && '.nodebird.site',
     }
