@@ -27,7 +27,8 @@ if (prod) {
     app.use(hpp());
     app.use(morgan('combined'));
     app.use(cors({
-        origin: 'http://nodebird.site',
+        //origin: 'https://nodebird.site',
+        origin: true,
         credentials: true
     }));
 
