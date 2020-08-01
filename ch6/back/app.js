@@ -23,6 +23,7 @@ dotenv.config();
 db.sequelize.sync({});
 
 if (prod) {
+    app.set('trust proxy', 1);
     app.use(helmet());
     app.use(hpp());
     app.use(morgan('combined'));
@@ -48,10 +49,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
+    proxy: true,
     cookie: {
         httpOnly: true,
         secure: prod,
-        domain: prod && '.nodebird.site',
+        domain: prod && 'nodebird.site',
     }
 }));
 
