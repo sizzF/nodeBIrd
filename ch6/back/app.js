@@ -22,7 +22,8 @@ const app = express();
 dotenv.config();
 db.sequelize.sync({});
 
-if(prod){
+if (prod) {
+    app.set('trust proxy', 1);
     app.use(helmet());
     app.use(hpp());
     app.use(morgan('combined'));
@@ -31,7 +32,7 @@ if(prod){
         credentials: true
     }));
 
-}else {
+} else {
     app.use(morgan('dev'));
     app.use(cors({
         origin: 'http://localhost:3088',
@@ -48,9 +49,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
+    proxy: true,
     cookie: {
-        secure: true,
-        domain: prod && '.nodebird.site',
+        httpOnly: true,
+        secure: prod,
+        domain: prod && 'nodebird.site',
     }
 }));
 
@@ -60,7 +63,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', (req, res) => {
-    res.send('안녕 백엔드');
+    res.send(`nodebird 백엔드 ${prod ? process.env.PORT : 3085}`);
 });
 
 app.use('/user', userRouter);
@@ -68,6 +71,6 @@ app.use('/post', postRouter);
 app.use('/posts/', postsRouter);
 app.use('/hashtag/', hashtagRouter);
 
-app.listen(prod ? process.env.PORT : 3085, () => {
+app.listen(prod ? process.env.PORT : 3085, '0.0.0.0', () => {
     console.log(`백엔드 서버 ${prod ? process.env.PORT : 3085}번 포트에서 작동중`);
 });
