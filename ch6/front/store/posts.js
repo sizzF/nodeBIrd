@@ -11,73 +11,70 @@ const limit = 10;
 
 export const mutations = {
     addMainPost(state, payload) {
-        state.mainPosts.unshift(payload);//새글이 앞에오도록
+        state.mainPosts.unshift(payload); //새글이 앞에오도록
         state.imagePaths = [];
     },
     modifyMainPost(state, payload) {
-        const index = state.mainPosts.findIndex( v => v.id === payload.postId);
-        state.mainPosts[index] = payload.data;//새글이 앞에오도록
+        const index = state.mainPosts.findIndex(v => v.id === payload.postId);
+        state.mainPosts[index] = payload.data; //새글이 앞에오도록
         state.mainPosts = state.mainPosts.concat();
         state.modifyImagePaths = [];
     },
     removeMainPost(state, payload) {
-        const index = state.mainPosts.findIndex( v => v.id === payload.postId);
+        const index = state.mainPosts.findIndex(v => v.id === payload.postId);
         state.mainPosts.splice(index, 1);
     },
     addComment(state, payload) {
-        const index = state.mainPosts.findIndex( v => v.id === payload.PostId);
+        const index = state.mainPosts.findIndex(v => v.id === payload.PostId);
         state.mainPosts[index].Comments.push(payload);
-
     },
     loadPost(state, payload) {
         state.mainPosts = [payload];
     },
     loadPosts(state, payload) {
-        if(payload.refresh) {
+        if (payload.refresh) {
             state.mainPosts = payload.data;
             state.hasMorePost = payload.data.length === limit; //10개씩 불러올때는 뒤에 더있을수있으니 true 10개 이하면 끝난거니 false
-        }else {
+        } else {
             state.mainPosts = state.mainPosts.concat(payload.data);
             state.hasMorePost = payload.data.length === limit; //10개씩 불러올때는 뒤에 더있을수있으니 true 10개 이하면 끝난거니 false
         }
     },
     loadComments(state, payload) {
-        const index = state.mainPosts.findIndex( v => v.id === payload.postId);
-        //state.mainPosts[index].Comments = payload;
+        const index = state.mainPosts.findIndex(v => v.id === payload.PostId);
         Vue.set(state.mainPosts[index], 'Comments', payload.data);
 
-
     },
-    concatImagePaths(state, payload){
+    concatImagePaths(state, payload) {
         state.imagePaths = state.imagePaths.concat(payload);
     },
-    concatModifyImagePaths(state, payload){
+    concatModifyImagePaths(state, payload) {
         state.modifyImagePaths = state.modifyImagePaths.concat(payload);
     },
-    removeImagePath(state, payload){
+    removeImagePath(state, payload) {
         state.imagePaths.splice(payload, 1);
     },
-    removeModifyImagePath(state, payload){
+    removeModifyImagePath(state, payload) {
         state.modifyImagePaths.splice(payload, 1);
     },
-    deleteModifyImagePaths(state, payload){
+    deleteModifyImagePaths(state, payload) {
         state.modifyImagePaths = [];
     },
-    likePost(state, payload){
-        const index = state.mainPosts.findIndex( v => v.id === payload.postId);
+    likePost(state, payload) {
+        const index = state.mainPosts.findIndex(v => v.id === payload.postId);
         state.mainPosts[index].Likers.push({
             id: payload.userId,
         });
     },
-    unLikePost(state, payload){
-        const index = state.mainPosts.findIndex( v => v.id === payload.postId);
-        const userIndex = state.mainPosts[index].Likers.findIndex( v => v.id === payload.userId);
+    unLikePost(state, payload) {
+        const index = state.mainPosts.findIndex(v => v.id === payload.postId);
+        const userIndex = state.mainPosts[index].Likers.findIndex(v => v.id === payload.userId);
         state.mainPosts[index].Likers.splice(userIndex, 1);
     },
 };
 
 export const actions = {
-    add: throttle(async function({ commit, state }, payload){
+    add: throttle(async function({ commit, state }, payload) {
         //서버에 게시글 등록
         try {
             const res = await this.$axios.post('/post', {
@@ -91,9 +88,9 @@ export const actions = {
             console.error(err);
             alert(err.response.data);
         }
-        
+
     }, 4000),
-    update: throttle(async function({ commit, state}, payload){
+    update: throttle(async function({ commit, state }, payload) {
         //서버에 게시글 등록
         try {
             console.log(payload.content);
@@ -112,9 +109,9 @@ export const actions = {
             console.error(err);
             alert(err.response.data);
         }
-        
+
     }, 4000),
-    async edit({ commit }, payload){
+    async edit({ commit }, payload) {
         try {
             await this.$axios.patch(`/post/${payload.postId}`, {
                 content: payload.content,
@@ -129,7 +126,7 @@ export const actions = {
             alert(err.response.data);
         }
     },
-    async remove({ commit }, payload){
+    async remove({ commit }, payload) {
         try {
             await this.$axios.delete(`/post/${payload.postId}`, {
                 withCredentials: true,
@@ -141,12 +138,12 @@ export const actions = {
             alert(err.response.data);
         }
     },
-    async addComment({ commit }, payload){
+    async addComment({ commit }, payload) {
         try {
             const res = await this.$axios.post(`/post/${payload.postId}/comment`, {
                 content: payload.content,
 
-            },{
+            }, {
                 withCredentials: true,
             });
             commit('addComment', res.data);
@@ -157,7 +154,7 @@ export const actions = {
             alert(err.response.data);
         }
     },
-    async loadPost({ commit, state }, payload){
+    async loadPost({ commit, state }, payload) {
         try {
             const res = await this.$axios.get(`/post/${payload.postId}`);
             commit('loadPost', res.data);
@@ -166,14 +163,14 @@ export const actions = {
             // alert(err.response.data);
         }
     },
-    loadPosts: throttle(async function({ commit, state }, payload){
-        if(state.hasMorePost || (payload && payload.refresh)) {
+    loadPosts: throttle(async function({ commit, state }, payload) {
+        if (state.hasMorePost || (payload && payload.refresh)) {
             try {
                 let lastPost;
                 let res;
-                if(payload && payload.refresh){
+                if (payload && payload.refresh) {
                     lastPost = undefined;
-                }else{
+                } else {
                     lastPost = state.mainPosts[state.mainPosts.length - 1];
                 }
                 res = await this.$axios.get(`/posts?lastId=${lastPost && lastPost.id}&limit=10`)
@@ -183,18 +180,18 @@ export const actions = {
                 });
             } catch (err) {
                 console.error(err);
-               // alert(err.response.data);
+                // alert(err.response.data);
             }
         }
     }, 1000),
-    loadUserPosts: throttle(async function({ commit, state }, payload){
-        if(state.hasMorePost || (payload && payload.refresh)) {
+    loadUserPosts: throttle(async function({ commit, state }, payload) {
+        if (state.hasMorePost || (payload && payload.refresh)) {
             try {
                 let lastPost;
                 let res;
-                if(payload && payload.refresh){
+                if (payload && payload.refresh) {
                     lastPost = undefined;
-                }else{
+                } else {
                     lastPost = state.mainPosts[state.mainPosts.length - 1];
                 }
                 res = await this.$axios.get(`/user/${payload.userId}/posts?lastId=${lastPost && lastPost.id}&limit=10`)
@@ -204,18 +201,18 @@ export const actions = {
                 });
             } catch (err) {
                 console.error(err);
-               // alert(err.response.data);
+                // alert(err.response.data);
             }
         }
     }, 1000),
-    loadHashtagPosts: throttle(async function({ commit, state }, payload){
-        if(state.hasMorePost || (payload && payload.refresh)) {
+    loadHashtagPosts: throttle(async function({ commit, state }, payload) {
+        if (state.hasMorePost || (payload && payload.refresh)) {
             try {
                 let lastPost;
                 let res;
-                if(payload && payload.refresh){
+                if (payload && payload.refresh) {
                     lastPost = undefined;
-                }else{
+                } else {
                     lastPost = state.mainPosts[state.mainPosts.length - 1];
                 }
                 res = await this.$axios.get(`/hashtag/${payload.hashtag}?lastId=${lastPost && lastPost.id}&limit=10`)
@@ -225,49 +222,47 @@ export const actions = {
                 });
             } catch (err) {
                 console.error(err);
-               // alert(err.response.data);
+                // alert(err.response.data);
             }
         }
     }, 1000),
-    async loadComments({ commit }, payload){
+    async loadComments({ commit }, payload) {
         try {
             const res = await this.$axios.get(`/post/${payload.postId}/comments`);
-            commit('loadComments', {
-                postId: payload.postId,
-                data: res.data,
-            });
+            res.data.PostId = payload.postId;
+            commit('loadComments', res.data);
         } catch (err) {
             console.error(err);
             alert(err.response.data);
         }
     },
-    async uploadImages({ commit }, payload){
-        try{
+    async uploadImages({ commit }, payload) {
+        try {
             const res = await this.$axios.post('/post/images', payload, {
-            withCredentials: true,
+                withCredentials: true,
             });
             console.log(res.data);
             commit('concatImagePaths', res.data);
-        }catch(err){
+        } catch (err) {
             console.error(err);
             alert(err.response.data);
         }
     },
-    async modifyUploadImages({ commit }, payload){
-        try{
+    async modifyUploadImages({ commit }, payload) {
+        try {
             const res = await this.$axios.post('/post/images', payload, {
-            withCredentials: true,
+                withCredentials: true,
             });
             console.log(res.data);
             commit('concatModifyImagePaths', res.data);
-        }catch(err){
+        } catch (err) {
             console.error(err);
             alert(err.response.data);
         }
     },
-    async onRetweet({ commit }, payload){
+    async onRetweet({ commit }, payload) {
         try {
-            const res = await this.$axios.post(`/post/${payload.postId}/retweet`,{},{
+            const res = await this.$axios.post(`/post/${payload.postId}/retweet`, {}, {
                 withCredentials: true,
             });
             commit('addMainPost', res.data);
@@ -277,7 +272,7 @@ export const actions = {
         }
     },
 
-    async unlikePost({ commit }, payload){
+    async unlikePost({ commit }, payload) {
         try {
             const res = await this.$axios.delete(`/post/${payload.postId}/like`, {
                 withCredentials: true,
@@ -291,8 +286,8 @@ export const actions = {
             alert(err.response.data);
         }
     },
-    
-    async likePost({ commit }, payload){
+
+    async likePost({ commit }, payload) {
         try {
             const res = await this.$axios.post(`/post/${payload.postId}/like`, {}, {
                 withCredentials: true,
