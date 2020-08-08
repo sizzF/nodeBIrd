@@ -14,7 +14,7 @@
                     <nuxt-link 
                     v-if="node.startsWith('#')" 
                     :key="i" 
-                    :to="`/hashtag/${node.slice(1)}`"
+                    :to="`/hashtag/${encodeURIComponent(node.slice(1))}`"
                      style="color: gray;"
                      >
                      {{ node }}
