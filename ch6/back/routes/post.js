@@ -34,8 +34,7 @@ router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
 router.post('/', isLoggedIn, async(req, res, next) => {
     try {
 
-        //const hashtags = req.body.content.match(/#[^\s#]+/g);
-
+        const hashtags = req.body.content.match(/#[^\s#]+/g);
         const newPost = await db.Post.create({
             UserId: req.user.id,
             content: req.body.content,

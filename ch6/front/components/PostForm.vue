@@ -4,14 +4,13 @@
             <v-form ref="form" v-model="valid" @submit.prevent="onSubmitForm">
                 <v-textarea
                     v-model="content"
+                    counter=300
                     outlined
                     auto-grow
-                    clearable
                     label="오늘하루 어떤 신기한 일이 있었나요?"
-                    :hide-details="hideDetails"
                     :success-messages="successMessages"
                     :success="success"
-                    :rules="[v => !!v || '내용을 입력하세요.']" 
+                    :rules="rules" 
                     @input="onChangeTextarea"
                     />
                 <v-container>
@@ -43,6 +42,10 @@ export default {
             successMessages:  '',
             success: false,
             content: '',
+            rules: [
+                v => !!v || '내용을 입력해주세요',
+                v => v.length <= 300 || '최대 300자'
+             ]
         }
     },
     computed: {
@@ -66,10 +69,10 @@ export default {
                     await this.$store.dispatch('posts/add', {
                     content: this.content,
                     })
-                    this.content = '';
-                    this.hideDetails = false;
                     this.success = true;
                     this.successMessages = '게시글 등록 성공';
+                    this.content = '성공';
+
                     this.$store.commit('users/addPostId', {
                         id: this.$store.state.posts.mainPosts[0].id
                     });

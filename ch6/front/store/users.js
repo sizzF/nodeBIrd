@@ -2,7 +2,7 @@ import Vue from 'vue';
 import throttle from 'lodash.throttle';
 
 export const state = () => ({
-    me: null,//로그인 상태확인
+    me: null, //로그인 상태확인
     followerList: [],
     followingList: [],
     hasMoreFollower: true,
@@ -23,9 +23,9 @@ export const mutations = { //동기적 작업
     },
     changeNickname(state, payload) {
         state.me.nickname = payload.nickname;
-    },  
-    loadFollowers(state, payload){
-        if(payload.refresh) {
+    },
+    loadFollowers(state, payload) {
+        if (payload.refresh) {
             state.followerList = payload.data;
             state.hasMoreFollower = payload.data.length === limit;
         } else {
@@ -33,36 +33,36 @@ export const mutations = { //동기적 작업
             state.hasMoreFollower = payload.data.length === limit;
         }
     },
-    loadFollowings(state, payload){
-        if(payload.refresh) {
+    loadFollowings(state, payload) {
+        if (payload.refresh) {
             state.followingList = payload.data;
-            state.hasMoreFollowing = payload.data.length === limit;    
+            state.hasMoreFollowing = payload.data.length === limit;
         } else {
             state.followingList = state.followingList.concat(payload.data);
-            state.hasMoreFollowing = payload.data.length === limit;    
+            state.hasMoreFollowing = payload.data.length === limit;
         }
     },
-    following(state, payload){
+    following(state, payload) {
         state.me.Followings.push({ id: payload.userId });
     },
     removeFollower(state, payload) {
-        let index = state.followerList.findIndex( v => v.id === payload.userId);
+        let index = state.followerList.findIndex(v => v.id === payload.userId);
         state.followerList.splice(index, 1);
-        index = state.me.Followers.findIndex( v => v.id === payload.userId);
+        index = state.me.Followers.findIndex(v => v.id === payload.userId);
         state.me.Followers.splice(index, 1);
 
     },
     removeFollowing(state, payload) {
-        let index = state.me.Followings.findIndex( v => v.id === payload.userId);
-        state.me.Followings.splice(index, 1);    
-        index = state.followingList.findIndex( v => v.id === payload.userId);
-        state.followingList.splice(index, 1);    
+        let index = state.me.Followings.findIndex(v => v.id === payload.userId);
+        state.me.Followings.splice(index, 1);
+        index = state.followingList.findIndex(v => v.id === payload.userId);
+        state.followingList.splice(index, 1);
     },
     addPostId(state, payload) {
         state.me.Posts.push({ id: payload.id });
     },
     removePostId(state, payload) {
-        const index = state.me.Posts.findIndex( v => v.id === payload.id);
+        const index = state.me.Posts.findIndex(v => v.id === payload.id);
         state.me.Posts.splice(index, 1);
     }
 
@@ -71,15 +71,15 @@ export const mutations = { //동기적 작업
 export const actions = { //비동기적 작업 동기도됨
     async loadUser({ commit }) {
         try {
-            const res = await this.$axios.get('/user',{
+            const res = await this.$axios.get('/user', {
                 withCredentials: true,
             });
             commit('SETME', res.data);
         } catch (err) {
             console.error(err);
-        //    alert(err.response.data);
+            //    alert(err.response.data);
         }
-      
+
     },
     async loadOther({ commit }, payload) {
         try {
@@ -89,59 +89,59 @@ export const actions = { //비동기적 작업 동기도됨
             commit('setOther', res.data);
         } catch (err) {
             console.error(err);
-        //    alert(err.response.data);
+            //    alert(err.response.data);
         }
-      
+
     },
     signUp: throttle(async function(context, payload) { //context안에는 {commit, dispatch, state, rootState ,getters, rootGetters }
         //서버에 회원가입 요청
-        try{
-            const res = await this.$axios.post('/user',{
+        try {
+            const res = await this.$axios.post('/user', {
                 email: payload.email,
                 password: payload.password,
                 nickname: payload.nickname
-            },{
+            }, {
                 withCredentials: true,
-            });//user사용자를 post생성하다
+            }); //user사용자를 post생성하다
             //context.dispatch('logIn', res.data);
-        }catch(err){
+        } catch (err) {
             console.error(err);
             alert(err.response.data);
         }
-        
-       
+
+
     }, 5000),
 
     logIn: throttle(async function(context, payload) {
-        try{
-            const res = await this.$axios.post('/user/login',{
+        try {
+            const res = await this.$axios.post('/user/login', {
                 email: payload.email,
                 password: payload.password
             }, {
                 withCredentials: true,
             });
             context.commit('SETME', res.data);
-        }catch(err){
+        } catch (err) {
             console.error(err);
-            alert(err.response.data);
-            
+            alert('로그인 실패');
+
         }
-       
+
     }, 5000),
 
     logOut: throttle(async function(context, payload) {
-        try{
-            const data = await this.$axios.post('/user/logout',{},{
+        try {
+            const data = await this.$axios.post('/user/logout', {}, {
                 withCredentials: true,
             });
             context.commit('SETME', null);
-        }catch(err){
+        } catch (err) {
             console.error(err);
             alert(err.response.data);
         }
     }, 5000),
 
-    changeNickname: throttle(async function({ commit }, payload){
+    changeNickname: throttle(async function({ commit }, payload) {
         try {
             const res = await this.$axios.patch('/user/nickname', { nickname: payload.nickname }, {
                 withCredentials: true,
@@ -151,10 +151,10 @@ export const actions = { //비동기적 작업 동기도됨
             console.error(err);
             alert(err.response.data);
         }
-    },3000),
-    async removeFollower({ commit }, payload){
+    }, 3000),
+    async removeFollower({ commit }, payload) {
         try {
-            const res = await this.$axios.delete(`/user/${payload.userId}/follower`,{
+            const res = await this.$axios.delete(`/user/${payload.userId}/follower`, {
                 withCredentials: true,
             });
             commit('removeFollower', { userId: payload.userId });
@@ -163,11 +163,11 @@ export const actions = { //비동기적 작업 동기도됨
             alert(err.response.data);
         }
     },
-    async loadFollowers({ commit, state }, payload){
+    async loadFollowers({ commit, state }, payload) {
         try {
-            if(state.hasMoreFollower || (payload && payload.refresh)){
-                let lastId = state.followerList[state.followerList.length-1];
-                if (payload && payload.refresh){
+            if (state.hasMoreFollower || (payload && payload.refresh)) {
+                let lastId = state.followerList[state.followerList.length - 1];
+                if (payload && payload.refresh) {
                     lastId = undefined;
                 }
                 const res = await this.$axios.get(`/user/${state.me.id}/followers?limit=3&lastId=${lastId && lastId.id}`, {
@@ -182,13 +182,13 @@ export const actions = { //비동기적 작업 동기도됨
             console.error(err);
             alert(err.response.data);
         }
-        
+
     },
-    async loadFollowings({ commit, state }, payload){
+    async loadFollowings({ commit, state }, payload) {
         try {
-            if(state.hasMoreFollowing || (payload && payload.refresh)){
-                let lastId = state.followingList[state.followingList.length-1];
-                if (payload && payload.refresh){
+            if (state.hasMoreFollowing || (payload && payload.refresh)) {
+                let lastId = state.followingList[state.followingList.length - 1];
+                if (payload && payload.refresh) {
                     lastId = undefined;
                 }
                 const res = await this.$axios.get(`/user/${state.me.id}/followings?limit=3&lastId=${lastId && lastId.id}`, {
@@ -203,12 +203,12 @@ export const actions = { //비동기적 작업 동기도됨
             console.error(err);
             alert(err.response.data);
         }
-        
+
     },
 
-    async follow({ commit }, payload){
+    async follow({ commit }, payload) {
         try {
-            const res= await this.$axios.post(`/user/${payload.userId}/follow`, {}, {
+            const res = await this.$axios.post(`/user/${payload.userId}/follow`, {}, {
                 withCredentials: true
             });
             commit('following', {
@@ -220,9 +220,9 @@ export const actions = { //비동기적 작업 동기도됨
         }
     },
 
-    async unFollow({ commit }, payload){
+    async unFollow({ commit }, payload) {
         try {
-            const res= await this.$axios.delete(`/user/${payload.userId}/follow`, {
+            const res = await this.$axios.delete(`/user/${payload.userId}/follow`, {
                 withCredentials: true
             });
             commit('removeFollowing', {
@@ -234,6 +234,6 @@ export const actions = { //비동기적 작업 동기도됨
         }
     },
 
-    
+
 
 };
