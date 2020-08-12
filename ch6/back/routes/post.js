@@ -83,6 +83,9 @@ router.patch('/', isLoggedIn, async(req, res, next) => {
         const updatePost = await db.Post.findOne({
             where: { id: req.body.postId },
         });
+        if (post.userId !== req.user.id) {
+            return res.status(404).send('회원님이 작성하신 글이 아닙니다.');
+        }
         updatePost.update({
             UserId: req.user.id,
             content: req.body.content,
@@ -124,7 +127,7 @@ router.patch('/', isLoggedIn, async(req, res, next) => {
         next(err)
     }
 });
-router.get('/:id', async(req, res, next) => { //게시글 수정부분 구현, 부분수정 patch 전체수정 put
+router.get('/:id', async(req, res, next) => { 
     try {
         const post = await db.Post.findOne({
             where: { id: parseInt(req.params.id, 10) },
@@ -155,14 +158,7 @@ router.get('/:id', async(req, res, next) => { //게시글 수정부분 구현, �
         next(err);
     }
 });
-router.patch('/:id', isLoggedIn, async(req, res, next) => { //게시글 수정부분 구현, 부분수정 patch 전체수정 put
-    try {
 
-    } catch (err) {
-        console.log(err);
-        next(err);
-    }
-})
 router.delete('/:id', isLoggedIn, async(req, res, next) => {
     try {
         await db.Post.destroy({
@@ -170,6 +166,9 @@ router.delete('/:id', isLoggedIn, async(req, res, next) => {
                 id: req.params.id
             }
         });
+        if (post.userId !== req.user.id) {
+            return res.status(404).send('회원님이 작성하신 글이 아닙니다.');
+        }
         res.send('삭제했습니다.');
     } catch (err) {
         console.log(err);

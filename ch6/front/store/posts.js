@@ -42,7 +42,7 @@ export const mutations = {
     },
     loadComments(state, payload) {
         const index = state.mainPosts.findIndex(v => v.id === payload.PostId);
-        Vue.set(state.mainPosts[index], 'Comments', payload.data);
+        Vue.set(state.mainPosts[index], 'Comments', payload);
 
     },
     concatImagePaths(state, payload) {
@@ -233,7 +233,7 @@ export const actions = {
             commit('loadComments', res.data);
         } catch (err) {
             console.error(err);
-            alert(err.response.data);
+            alert(err.response);
         }
     },
     async uploadImages({ commit }, payload) {
