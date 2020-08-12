@@ -170,7 +170,7 @@ router.delete('/:id', isLoggedIn, async(req, res, next) => {
         if (post.UserId !== req.user.id) {
             return res.status(404).send('회원님이 작성하신 글이 아닙니다.');
         }
-        post.destroy;
+        post.destroy();
         
         res.send('삭제했습니다.');
     } catch (err) {
