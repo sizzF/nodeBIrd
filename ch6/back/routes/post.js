@@ -83,7 +83,8 @@ router.patch('/', isLoggedIn, async(req, res, next) => {
         const updatePost = await db.Post.findOne({
             where: { id: req.body.postId },
         });
-        if (post.userId !== req.user.id) {
+        console.log(updatePost.UserId, req.user.id);
+        if (updatePost.UserId !== req.user.id) {
             return res.status(404).send('회원님이 작성하신 글이 아닙니다.');
         }
         updatePost.update({
@@ -161,14 +162,16 @@ router.get('/:id', async(req, res, next) => {
 
 router.delete('/:id', isLoggedIn, async(req, res, next) => {
     try {
-        await db.Post.destroy({
+        const post = await db.Post.findOne({
             where: {
                 id: req.params.id
             }
-        });
-        if (post.userId !== req.user.id) {
+        })
+        if (post.UserId !== req.user.id) {
             return res.status(404).send('회원님이 작성하신 글이 아닙니다.');
         }
+        post.destroy;
+        
         res.send('삭제했습니다.');
     } catch (err) {
         console.log(err);
