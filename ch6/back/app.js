@@ -40,6 +40,9 @@ if (prod) {
     }));
 }
 
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
 
 app.use('/', express.static('uploads'));
 app.use(express.json());
@@ -65,11 +68,15 @@ app.use(passport.session());
 app.get('/', (req, res) => {
     res.send(`nodebird 백엔드 ${prod ? process.env.PORT : 3085}`);
 });
+app.get('/portfolio', (req, res) => {
+    res.render('index.html');
+})
 
 app.use('/user', userRouter);
 app.use('/post', postRouter);
 app.use('/posts/', postsRouter);
 app.use('/hashtag/', hashtagRouter);
+
 
 app.listen(prod ? process.env.PORT : 3085, '0.0.0.0', () => {
     console.log(`백엔드 서버 ${prod ? process.env.PORT : 3085}번 포트에서 작동중`);

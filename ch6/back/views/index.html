@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sizz portfolio</title>
+  </head>
+  <body onload="typeWriter()">
+    <header>
+      <a name="home"></a>
+      <div id="menu">
+        <ul>
+          <li><a onclick="move('home')">Home</a></li>
+          <li><a onclick="move('about')">About</a></li>
+          <li><a onclick="move('skills')">Skills</a></li>
+          <li><a onclick="move('projects')">Projects</a></li>
+          <li><a onclick="move('contact')">Contact</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <div id="home">
+        <h1 id="typerText"></h1>
+      </div>
+      <div id="about">
+        <div style="float: left">
+          <div style="display: inline-block; height: 100%">about me</div>
+          <div style="display: inline-block; height: 100%">
+            안녕하세요 저는 조승민입니다.
+          </div>
+        </div>
+      </div>
+      <div id="skills"></div>
+      <div id="projects"></div>
+      <div id="contact"></div>
+    </main>
+  </body>
+  <script>
+    let i = 0;
+    function typeWriter() {
+      const txt = "Developer 조승민의 포트폴리오입니다.";
+      const speed = 60;
+      if (i < txt.length) {
+        document.getElementById("typerText").innerHTML += txt.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+
+    function move(id) {
+      const location = document.querySelector(`#${id}`).offsetTop;
+      window.scrollTo({ top: location, behavior: "smooth" });
+      console.log(id);
+    }
+  </script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      /* 생략 */
+    }
+    header {
+      position: fixed;
+      top: 0;
+      /* width: 100% */
+      left: 0;
+      right: 0;
+    }
+    #menu {
+      background: #242424c9;
+      overflow: hidden;
+    }
+
+    #menu ul {
+      float: right;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #menu li {
+      float: left;
+    }
+
+    #menu li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 16px;
+      margin-right: 10px;
+      text-decoration: none;
+    }
+
+    #menu li a:hover {
+      background: #111111;
+    }
+    #home {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100vh;
+      background: url("homeBackground.jpg") no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+    #home h1 {
+      text-align: center;
+      color: white;
+      font: bolder;
+      font-size: 3vw;
+    }
+    #about {
+      height: 350px;
+      background-color: white;
+    }
+
+    #skills {
+      height: 500px;
+      background-color: rgb(226, 226, 226);
+    }
+
+    #projects {
+      height: 500px;
+      background-color: rgb(0, 153, 0);
+    }
+
+    #contact {
+      height: 500px;
+      background-color: white;
+    }
+  </style>
+</html>
