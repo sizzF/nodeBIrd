@@ -66,7 +66,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', (req, res) => {
-    res.send(`nodebird 백엔드 ${prod ? process.env.PORT : 3085}`);
+    //res.send(`nodebird 백엔드 ${prod ? process.env.PORT : 3085}`);
+    res.render('index.html');
+
 });
 app.get('/portfolio', (req, res) => {
     res.render('index.html');
