@@ -23,6 +23,13 @@
         <li><a onclick="move('projects')">Projects</a></li>
         <li><a onclick="move('contact')">Contact</a></li>
       </ul>
+      <ul class="menu-list2">
+        <li><a onclick="move('home')">Home</a></li>
+        <li><a onclick="move('about')">About</a></li>
+        <li><a onclick="move('skills')">Skills</a></li>
+        <li><a onclick="move('projects')">Projects</a></li>
+        <li><a onclick="move('contact')">Contact</a></li>
+      </ul>
     </div>
   </header>
 
@@ -214,7 +221,6 @@
   function clickMenu() {
     const menuList = document.querySelector('.menu-list');
     const menuIcon = document.querySelector('#menuIcon');
-    console.log(menuIcon);
     if (menuList.style.display === 'none') {
       menuList.style.display = 'flex';
       menuIcon.innerHTML = 'close';
@@ -276,6 +282,9 @@
   .menu-list {
     display: block;
   }
+  .menu-list2{
+    display: none;
+  }
 
   @media(max-width: 600px) {
     .menu-bar {
@@ -284,6 +293,9 @@
 
     .menu-list {
       display: none;
+    }
+    .menu-list2 {
+      display: flex;
       flex-direction: column;
     }
 
