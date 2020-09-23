@@ -10,65 +10,29 @@
 </head>
 
 <body onload="typeWriter()">
-  <header>
-    <a name="home"></a>
-    <div id="menu">
-      <ul class="menu-bar">
-        <li class="material-icons" style="color: white;"><a id="menuIcon" onclick="clickMenu()">menu</a></i>
-      </ul>
-      <ul class="menu-list">
-        <li><a onclick="move('home')">Home</a></li>
-        <li><a onclick="move('about')">About</a></li>
-        <li><a onclick="move('skills')">Skills</a></li>
-        <li><a onclick="move('projects')">Projects</a></li>
-        <li><a onclick="move('contact')">Contact</a></li>
-      </ul>
-      <ul class="menu-list2">
-        <li><a onclick="move('home')">Home</a></li>
-        <li><a onclick="move('about')">About</a></li>
-        <li><a onclick="move('skills')">Skills</a></li>
-        <li><a onclick="move('projects')">Projects</a></li>
-        <li><a onclick="move('contact')">Contact</a></li>
-      </ul>
-    </div>
-  </header>
+    <header>
+        <a name="home"></a>
+        <div class="dropdown">
+            <ul class="menu-bar">
+                <li class="material-icons dropbtn" style="color: white;"><a id="menuIcon">menu</a></li>
+                    <div class="dropdown-content">
+                        <a onclick="move('home')">Home</a>
+                        <a onclick="move('about')">About</a>
+                        <a onclick="move('skills')">Skills</a>
+                        <a onclick="move('projects')">Projects</a>
+                        <a onclick="move('contact')">Contact</a>
 
-  <main>
-    <div id="home">
-      <div>
-        <h1 class="typerText"></h1>
-        <h1 class="cursor">&nbsp;</h1>
-      </div>
-    </div>
-    <div id="about">
-      <div class="about-title">
-        <h1 class="hedding">About Me</h1>
-      </div>
-      <div class="about-content">
-        <h2>빠른 적응력을 가진 개발자</h2>
-        <p style="font: bolder">
-          동양미래대학교 소프트웨어 공학과를 졸업 후 빌리콘에서 2년 4개월간 하드웨어 설계, 소프트웨어 개발 업무로 근무하였습니다.<br> 
-          식물속성재배기, 장치 테스트용 앱, LoRa, mqtt를 활용한 건물 전등/콘센트 제어, 건물 전력 사용량 모니터링 웹페이지,
-           리눅스 보드 테스트 등의 업무를 하였습니다.<br>
-          이곳에 있으면서 다양한 분야를 넓게 경험해볼수 있었지만 하나의 분야에서 전문가가 되기 힘들다고 생각하여 퇴사하였으며
-          현재는 웹프로그래밍쪽을 중점적으로 배워나가고 있으며 프런트 엔드와 백 엔드 모두 재미있다고 느껴 최종적으로
-          둘 다 잘할 수 있는 웹 풀 스택 개발자를 꿈꾸고 있습니다.<br>
-          
-
-        </p>
-      </div>
-    </div>
-    <div id="skills">
-      <h1 class="skill-heeding">Skills</h1>
-      <div>
-        <div>
-          <h2>Language</h2>
+                    </div>
+            </ul>
         </div>
-        <div class="skill-image" style="background-image: url('c.png')">
-          <div class="skill-label">Basic</div>
-        </div>
-        <div class="skill-image" style="background-image: url('java.png')">
-          <div class="skill-label">Intermediate</div>
+        <div id="menu">
+            <ul class="menu-list">
+                <li><a onclick="move('home')">Home</a></li>
+                <li><a onclick="move('about')">About</a></li>
+                <li><a onclick="move('skills')">Skills</a></li>
+                <li><a onclick="move('projects')">Projects</a></li>
+                <li><a onclick="move('contact')">Contact</a></li>
+            </ul>
         </div>
     </header>
 
@@ -86,8 +50,11 @@
             <div class="about-content">
                 <h2>빠른 적응력을 가진 개발자</h2>
                 <p style="font: bolder">
-                    동양미래대학교 소프트웨어 공학과를 졸업 후 빌리콘에서 2년 4개월간 하드웨어 설계, 소프트웨어 개발 업무로 근무하였습니다.<br> 식물속성재배기, 장치 테스트용 앱, LoRa, mqtt를 활용한 건물 전등/콘센트 제어, 건물 전력 사용량 모니터링 웹페이지, 리눅스 보드 테스트 등의 업무를 하였습니다.<br> 이곳에 있으면서 다양한 분야를 넓게 경험해볼수 있었지만 하나의 분야에서 전문가가 되기 힘들다고 생각하여
-                    퇴사하였으며 현재는 웹프로그래밍쪽을 중점적으로 배워나가고 있으며 프런트 엔드와 백 엔드 모두 재미있다고 느껴 최종적으로 둘 다 잘할 수 있는 웹 풀 스택 개발자를 꿈꾸고 있습니다.<br>
+                    동양미래대학교 소프트웨어 공학과를 졸업 후 빌리콘에서 2년 4개월간 하드웨어 설계, 소프트웨어 개발 업무로 근무하였습니다.<br> 식물속성재배기, 장치 테스트용 앱, LoRa,
+                    mqtt를 활용한 건물 전등/콘센트 제어, 건물 전력 사용량 모니터링 웹페이지, 리눅스 보드 테스트 등의 업무를 하였습니다.<br> 이곳에 있으면서 다양한 분야를 넓게 경험해볼수
+                    있었지만 하나의 분야에서 전문가가 되기 힘들다고 생각하여
+                    퇴사하였으며 현재는 웹프로그래밍쪽을 중점적으로 배워나가고 있으며 프런트 엔드와 백 엔드 모두 재미있다고 느껴 최종적으로 둘 다 잘할 수 있는 웹 풀 스택 개발자를 꿈꾸고
+                    있습니다.<br>
 
 
                 </p>
@@ -186,12 +153,16 @@
                 <div class="project-content">
                     <div class="project-content-title">Nodebird SNS 서비스</div>
                     <div>
-                        회원가입, 로그인, 글게시/수정/삭제, 해시태그/검색, 팔로우, 리트윗등<br>기본적인 기능이 있는 간단한 SNS 서비스입니다.<br> Vue와 Nuxt 프레임워크를 사용해 프론트엔드를 구성하였고 Ui 툴킷으로 Vuetify를 사용하였습니다.<br> Node + Express + sequelize를 사용해 백엔드를 개발하였습니다.<br> 배포는 AWS(EC2 + S3 + Route53)으로 하였습니다.
+                        회원가입, 로그인, 글게시/수정/삭제, 해시태그/검색, 팔로우, 리트윗등<br>기본적인 기능이 있는 간단한 SNS 서비스입니다.<br> Vue와 Nuxt 프레임워크를 사용해
+                        프론트엔드를 구성하였고 Ui 툴킷으로 Vuetify를 사용하였습니다.<br> Node + Express + sequelize를 사용해 백엔드를 개발하였습니다.<br> 배포는
+                        AWS(EC2 + S3 + Route53)으로 하였습니다.
                     </div>
                     <div class="row">
-                        <div class="project-link" style="background-image: url('vue-nodebird-favicon.png');" onclick="location.href='https://www.nodebird.site'">
+                        <div class="project-link" style="background-image: url('vue-nodebird-favicon.png');"
+                            onclick="location.href='https://www.nodebird.site'">
                         </div>
-                        <div class="project-link" style="background-image: url('github.png');" onclick="location.href='https://github.com/sizzF/nodeBIrd/tree/master/ch6';">
+                        <div class="project-link" style="background-image: url('github.png');"
+                            onclick="location.href='https://github.com/sizzF/nodeBIrd/tree/master/ch6';">
                         </div>
                     </div>
                 </div>
@@ -203,11 +174,14 @@
                 <div class="project-content">
                     <div class="project-content-title">TodoLIst</div>
                     <div>
-                        회원가입, 로그인, 할일게시/수정/삭제, 일기장과 같이 기본적인 기능이 있는 TodoList 입니다.<br>NodeBird SNS를 만들어본후 복습개념으로 제작하였습니다.<br> Vue와 Nuxt 프레임워크를 사용해 프론트엔드를 구성하였고 Ui 툴킷으로 Vuetify를 사용하였습니다.<br> Node + Express + sequelize를 사용해 백엔드를 개발하였습니다.
+                        회원가입, 로그인, 할일게시/수정/삭제, 일기장과 같이 기본적인 기능이 있는 TodoList 입니다.<br>NodeBird SNS를 만들어본후 복습개념으로
+                        제작하였습니다.<br> Vue와 Nuxt 프레임워크를 사용해 프론트엔드를 구성하였고 Ui 툴킷으로 Vuetify를 사용하였습니다.<br> Node + Express +
+                        sequelize를 사용해 백엔드를 개발하였습니다.
                         <br> 배포는 AWS(EC2)으로 하였습니다.<br> 현재 도메인을 구매하지 않아 samesite cookie문제로 서비스는 하고있지 않습니다.
                     </div>
                     <div class="row">
-                        <div class="project-link" style="background-image: url('github.png');" onclick="location.href='https://github.com/sizzF/vue-todolist/tree/master/newVersion';">
+                        <div class="project-link" style="background-image: url('github.png');"
+                            onclick="location.href='https://github.com/sizzF/vue-todolist/tree/master/newVersion';">
                         </div>
                     </div>
                 </div>
@@ -246,97 +220,118 @@
         console.log(id);
     }
 
-  function clickMenu() {
-    const menuList = document.querySelector('.menu-list');
-    const menuIcon = document.querySelector('#menuIcon');
-    if (menuList.style.display === 'none') {
-      menuList.style.display = 'flex';
-      menuIcon.innerHTML = 'close';
+    function clickMenu() {
+        const menuList = document.querySelector('.menu-list');
+        const menuIcon = document.querySelector('#menuIcon');
+        console.log(menuIcon);
+        if (menuList.style.display === 'none') {
+            menuList.style.display = 'flex';
+            menuIcon.innerHTML = 'close';
+        } else {
+            menuList.style.display = 'none';
+            menuIcon.innerHTML = 'menu';
+        }
     }
-    else {
-      menuList.style.display = 'none';
-      menuIcon.innerHTML = 'menu';
-    }
-  }
 </script>
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    /* 생략 */
-  }
+    body {
+        margin: 0;
+        padding: 0;
+        /* 생략 */
+    }
 
-  header {
-    position: fixed;
-    top: 0;
-    /* width: 100% */
-    left: 0;
-    right: 0;
-  }
+    header {
+        position: fixed;
+        top: 0;
+        /* width: 100% */
+        left: 0;
+        right: 0;
+    }
 
-  #menu {
-    background: #1b1b1bc9;
-    overflow: hidden;
-  }
+    #menu {
+        background: #1b1b1bc9;
+        overflow: hidden;
+    }
 
-  #menu ul {
-    float: right;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+    #menu ul {
+        float: right;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
 
-  #menu li {
-    float: left;
-  }
+    #menu li {
+        float: left;
+    }
 
-  #menu li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 16px;
-    margin-right: 10px;
-    text-decoration: none;
-  }
+    #menu li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 16px;
+        margin-right: 10px;
+        text-decoration: none;
+    }
 
-  #menu li a:hover {
-    background: #111111;
-  }
+    #menu li a:hover {
+        background: #111111;
+    }
 
-  .menu-bar {
-    display: none;
-  }
-
-  .menu-list {
-    display: block;
-  }
-  .menu-list2{
-    display: none;
-  }
-
-  @media(max-width: 600px) {
     .menu-bar {
         display: none;
     }
-    
+
+    .dropbtn {
+        color: white;
+        border: none;
+    }
+
+    .dropdown {
+        background: #1b1b1bc9;
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        font-size: medium;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #ddd;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
     .menu-list {
-      display: none;
+        display: block;
     }
-    .menu-list2 {
-      display: flex;
-      flex-direction: column;
-    }
-    
+
     @media(max-width: 600px) {
         .menu-bar {
             display: block;
         }
+
         .menu-list {
             display: none;
-            flex-direction: column;
         }
     }
-    
+
     #home {
         display: flex;
         flex-direction: column;
@@ -346,11 +341,11 @@
         background-size: cover;
         background-attachment: fixed;
     }
-    
+
     #home div {
         text-align: center;
     }
-    
+
     #home h1 {
         display: inline-block;
         text-align: center;
@@ -358,27 +353,27 @@
         font: bold;
         font-size: 4vw;
     }
-    
+
     #about {
         display: flex;
         justify-content: space-between;
         height: 100%;
         background-color: white;
     }
-    
+
     #about div {
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
-    
+
     .about-title {
         width: 20vw;
         text-align: center;
         margin-left: 6vw;
         margin-right: 6vw;
     }
-    
+
     .about-content {
         width: 80vw;
         margin-top: 4rem;
@@ -386,17 +381,19 @@
         margin-right: 8vw;
         text-align: left;
     }
-    
+
     @media(max-width: 600px) {
         #about {
             flex-direction: column;
             text-align: center;
         }
+
         .about-title {
             width: 100%;
             margin-left: 0;
             margin-right: 0;
         }
+
         .about-content {
             width: 95%;
             margin-top: 0;
@@ -404,7 +401,7 @@
             margin-right: 0;
         }
     }
-    
+
     #skills {
         height: 100%;
         width: 100%;
@@ -413,7 +410,7 @@
         padding-bottom: 5rem;
         background: #e7e6e6;
     }
-    
+
     .skill-heeding {
         position: relative;
         display: inline-block;
@@ -421,7 +418,7 @@
         font-weight: 400;
         margin: 30px 0;
     }
-    
+
     .skill-heeding::after {
         position: absolute;
         content: "";
@@ -433,7 +430,7 @@
         margin: 0 auto;
         background: rgb(253, 198, 198);
     }
-    
+
     .skill-image {
         text-align: center;
         display: inline-block;
@@ -447,7 +444,7 @@
         margin-bottom: 1rem;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.2);
     }
-    
+
     .skill-label {
         display: flex;
         justify-content: center;
@@ -463,11 +460,11 @@
         color: #fff;
         visibility: hidden;
     }
-    
+
     .skill-image:hover .skill-label {
         visibility: visible;
     }
-    
+
     #projects {
         height: 100%;
         width: 100%;
@@ -476,7 +473,7 @@
         padding-bottom: 5rem;
         background-color: rgb(155, 214, 155);
     }
-    
+
     .project-heeding {
         position: relative;
         display: inline-block;
@@ -484,7 +481,7 @@
         font-weight: 400;
         margin: 30px 0;
     }
-    
+
     .project-heeding::after {
         position: absolute;
         content: "";
@@ -496,7 +493,7 @@
         margin: 0 auto;
         background: rgb(0, 78, 10);
     }
-    
+
     .project-box {
         display: flex;
         flex-direction: row;
@@ -506,29 +503,29 @@
         margin-bottom: 2rem;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.2);
     }
-    
+
     .project-image {
         width: 30%;
         padding-right: 2.5%;
         text-align: center;
     }
-    
+
     .project-image img {
         width: 100%;
     }
-    
+
     .project-content {
         text-align: left;
         padding-right: 2.5%;
         padding-top: 2rem;
         padding-bottom: 1rem;
     }
-    
+
     .project-content-title {
         font-size: x-large;
         margin-bottom: 10px;
     }
-    
+
     .project-link {
         width: 30px;
         height: 30px;
@@ -539,7 +536,7 @@
         background-repeat: no-repeat;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.2);
     }
-    
+
     @media(max-width: 600px) {
         .project-box {
             display: flex;
@@ -549,20 +546,23 @@
             margin-right: 3rem;
             margin-bottom: 2rem;
         }
+
         .project-image {
             width: 100%;
         }
+
         .project-content {
             padding-right: 2.5%;
             padding-left: 2.5%;
             padding-top: 2rem;
             padding-bottom: 1rem;
         }
+
         .project-content-title {
             text-align: center;
         }
     }
-    
+
     #contact {
         height: 100%;
         width: 100%;
@@ -571,7 +571,7 @@
         padding-bottom: 5rem;
         background-color: white;
     }
-    
+
     .contact-heeding {
         position: relative;
         display: inline-block;
@@ -579,7 +579,7 @@
         font-weight: 400;
         margin: 30px 0;
     }
-    
+
     .contact-heeding::after {
         position: absolute;
         content: "";
@@ -591,13 +591,13 @@
         margin: 0 auto;
         background: rgb(0, 56, 177);
     }
-    
+
     .cursor {
         display: inline-block;
         width: 2px;
         animation: blink 1s step-end infinite;
     }
-    
+
     .hedding {
         position: relative;
         display: inline-block;
@@ -605,7 +605,7 @@
         font-weight: 400;
         margin: 30px 0;
     }
-    
+
     .hedding::after {
         position: absolute;
         content: "";
@@ -617,19 +617,21 @@
         margin: 0 auto;
         background: rgb(123, 124, 212);
     }
-    
+
     .row {
         display: flex;
         flex-direction: row;
     }
-    
+
     @-webkit-keyframes blink {
         0% {
             background: #fff;
         }
+
         50% {
             background: transparent;
         }
+
         100% {
             background: #fff;
         }
