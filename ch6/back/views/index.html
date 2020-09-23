@@ -246,6 +246,7 @@
         /* width: 100% */
         left: 0;
         right: 0;
+        z-index: 1000;
     }
 
     #menu {
@@ -291,7 +292,6 @@
 
     .dropdown {
         background: #1b1b1bc9;
-        position: relative;
         display: none;
         width: 100%;
     }
@@ -299,10 +299,11 @@
     .dropdown-content {
         display: none;
         position: absolute;
+        top: 2.5rem;
         background-color: #f1f1f1;
         min-width: 160px;
         box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 10;
+        z-index: 9999;
     }
 
     .dropdown-content a {
