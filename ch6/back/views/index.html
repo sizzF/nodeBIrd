@@ -10,8 +10,6 @@
 </head>
 
 <body onload="typeWriter()">
-<<<<<<< HEAD
-<<<<<<< HEAD
   <header>
     <a name="home"></a>
     <div id="menu">
@@ -71,26 +69,6 @@
         </div>
         <div class="skill-image" style="background-image: url('java.png')">
           <div class="skill-label">Intermediate</div>
-=======
-=======
->>>>>>> 6c844c3b9455e8f3d39edda45a6c37f450596776
-    <header>
-        <a name="home"></a>
-        <div id="menu">
-            <ul class="menu-bar">
-                <li class="material-icons" style="color: white;"><a id="menuIcon" onclick="clickMenu()">menu</a></i>
-            </ul>
-            <ul class="menu-list">
-                <li><a onclick="move('home')">Home</a></li>
-                <li><a onclick="move('about')">About</a></li>
-                <li><a onclick="move('skills')">Skills</a></li>
-                <li><a onclick="move('projects')">Projects</a></li>
-                <li><a onclick="move('contact')">Contact</a></li>
-            </ul>
-<<<<<<< HEAD
->>>>>>> 6c844c3b9455e8f3d39edda45a6c37f450596776
-=======
->>>>>>> 6c844c3b9455e8f3d39edda45a6c37f450596776
         </div>
     </header>
 
@@ -268,8 +246,6 @@
         console.log(id);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   function clickMenu() {
     const menuList = document.querySelector('.menu-list');
     const menuIcon = document.querySelector('#menuIcon');
@@ -339,102 +315,16 @@
   }
 
   @media(max-width: 600px) {
-=======
-    function clickMenu() {
-        const menuList = document.querySelector('.menu-list');
-        const menuIcon = document.querySelector('#menuIcon');
-        console.log(menuIcon);
-        if (menuList.style.display === 'none') {
-            menuList.style.display = 'flex';
-            menuIcon.innerHTML = 'close';
-        } else {
-            menuList.style.display = 'none';
-            menuIcon.innerHTML = 'menu';
-        }
-    }
-</script>
-<style>
-=======
-    function clickMenu() {
-        const menuList = document.querySelector('.menu-list');
-        const menuIcon = document.querySelector('#menuIcon');
-        console.log(menuIcon);
-        if (menuList.style.display === 'none') {
-            menuList.style.display = 'flex';
-            menuIcon.innerHTML = 'close';
-        } else {
-            menuList.style.display = 'none';
-            menuIcon.innerHTML = 'menu';
-        }
-    }
-</script>
-<style>
->>>>>>> 6c844c3b9455e8f3d39edda45a6c37f450596776
-    body {
-        margin: 0;
-        padding: 0;
-        /* 생략 */
-    }
-    
-    header {
-        position: fixed;
-        top: 0;
-        /* width: 100% */
-        left: 0;
-        right: 0;
-    }
-    
-    #menu {
-        background: #1b1b1bc9;
-        overflow: hidden;
-    }
-    
-    #menu ul {
-        float: right;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-    
-    #menu li {
-        float: left;
-    }
-    
-    #menu li a {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 16px;
-        margin-right: 10px;
-        text-decoration: none;
-    }
-    
-    #menu li a:hover {
-        background: #111111;
-    }
-    
-<<<<<<< HEAD
->>>>>>> 6c844c3b9455e8f3d39edda45a6c37f450596776
-=======
->>>>>>> 6c844c3b9455e8f3d39edda45a6c37f450596776
     .menu-bar {
         display: none;
     }
     
     .menu-list {
-<<<<<<< HEAD
-<<<<<<< HEAD
       display: none;
     }
     .menu-list2 {
       display: flex;
       flex-direction: column;
-=======
-        display: block;
->>>>>>> 6c844c3b9455e8f3d39edda45a6c37f450596776
-=======
-        display: block;
->>>>>>> 6c844c3b9455e8f3d39edda45a6c37f450596776
     }
     
     @media(max-width: 600px) {
