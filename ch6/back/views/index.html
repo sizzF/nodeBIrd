@@ -278,7 +278,7 @@
     }
 
     .menu-bar {
-        display: none;
+        display: block;
     }
 
     .dropbtn {
@@ -289,7 +289,7 @@
     .dropdown {
         background: #1b1b1bc9;
         position: relative;
-        display: inline-block;
+        display: none;
         width: 100%;
     }
 
@@ -323,8 +323,8 @@
     }
 
     @media(max-width: 600px) {
-        .menu-bar {
-            display: block;
+        .dropdown {
+            display: inline-block;
         }
 
         .menu-list {
