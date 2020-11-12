@@ -183,7 +183,7 @@ export const actions = {
                 // alert(err.response.data);
             }
         }
-    }, 1000),
+    }, 2000),
     loadUserPosts: throttle(async function({ commit, state }, payload) {
         if (state.hasMorePost || (payload && payload.refresh)) {
             try {
