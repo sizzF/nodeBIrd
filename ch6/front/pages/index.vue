@@ -46,7 +46,7 @@ export default {
 
     methods: {
         async onScroll() {
-            if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 400){
+            if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 200){
                 if(this.hasMorePost){
                     try{
                         await this.$store.dispatch('posts/loadPosts');
